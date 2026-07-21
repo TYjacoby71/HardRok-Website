@@ -157,6 +157,11 @@ const categories = [
   <section class="section-pad">
     <div class="container-content">
       <FAQAccordion items={faqs} />
+      <div class="mt-12 flex flex-wrap items-center gap-4 border-t border-card pt-8">
+        <p class="text-body font-semibold">Ready when you are:</p>
+        <CTAButton href="/quote/">Request a Quote</CTAButton>
+        <CTAButton href={SITE.phoneHref} variant="secondary">Call {SITE.phone}</CTAButton>
+      </div>
     </div>
   </section>
 </BaseLayout>

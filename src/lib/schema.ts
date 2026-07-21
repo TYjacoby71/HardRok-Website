@@ -11,6 +11,29 @@ export function organizationSchema(): JsonLd {
     url: SITE.origin,
     telephone: '+1-866-427-3765',
     logo: `${SITE.origin}/favicon.svg`,
+    // Entity signals: HardRok's own public profiles.
+    // TODO: add Google Business Profile / other profiles once confirmed.
+    sameAs: ['https://www.linkedin.com/company/hardrok-equipment-inc'],
+  };
+}
+
+export function articleSchema(opts: {
+  headline: string;
+  description: string;
+  url: string;
+}): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: opts.headline,
+    description: opts.description,
+    mainEntityOfPage: `${SITE.origin}${opts.url}`,
+    author: { '@type': 'Organization', name: SITE.legalName },
+    publisher: {
+      '@type': 'Organization',
+      name: SITE.legalName,
+      logo: { '@type': 'ImageObject', url: `${SITE.origin}/favicon.svg` },
+    },
   };
 }
 

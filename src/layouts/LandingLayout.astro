@@ -34,7 +34,9 @@ const canonical = `${SITE.origin}${Astro.url.pathname}`;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:image" content={`${SITE.origin}/images/og-default.svg`} />
+    <meta property="og:image" content={`${SITE.origin}/images/og-default.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={JSON.stringify(organizationSchema())} />
   </head>

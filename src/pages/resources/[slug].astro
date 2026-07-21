@@ -2,6 +2,7 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import LeadForm from '@components/LeadForm.astro';
+import { articleSchema } from '@lib/schema';
 
 export async function getStaticPaths() {
   const articles = await getCollection('resources', ({ data }) => !data.draft);
@@ -15,14 +16,26 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { Content } = await entry.render();
 
+const path = `/resources/${entry.slug}/`;
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Resources', href: '/resources/' },
-  { label: data.title, href: `/resources/${entry.slug}/` },
+  { label: data.title, href: path },
 ];
+const schema = articleSchema({
+  headline: data.title,
+  description: data.metaDescription,
+  url: path,
+});
 ---
 
-<BaseLayout title={data.metaTitle} description={data.metaDescription} breadcrumbs={crumbs}>
+<BaseLayout
+  title={data.metaTitle}
+  description={data.metaDescription}
+  breadcrumbs={crumbs}
+  ogType="article"
+  schemas={[schema]}
+>
   <article class="container-content section-pad">
     <h1>{data.title}</h1>
     <div class="prose-measure mt-6 space-y-4 [&_p]:leading-relaxed">
