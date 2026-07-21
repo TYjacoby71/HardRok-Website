@@ -51,8 +51,3 @@ alter table leads enable row level security;
 
 create index leads_crm_status_idx on leads (crm_status) where crm_status = 'failed';
 create index reps_territory_idx on reps (territory_id) where active;
-
--- Private bucket for worn-part photos (form uploads + inbound MMS).
-insert into storage.buckets (id, name, public)
-values ('lead-attachments', 'lead-attachments', false)
-on conflict (id) do nothing;
