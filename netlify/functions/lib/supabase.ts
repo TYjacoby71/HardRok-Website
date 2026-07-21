@@ -2,14 +2,16 @@ import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
 let client: SupabaseClient | null = null;
 
-// Service-role client: server-side only, bypasses RLS. Never expose this key
-// to the browser.
+// Server-side client, bypasses RLS. Never expose this key to the browser.
+// New Supabase projects issue sb_secret_... keys (SUPABASE_SECRET_KEY);
+// legacy projects issue service_role JWTs (SUPABASE_SERVICE_ROLE_KEY).
+// Either works — same privileges, same client.
 export function supabase(): SupabaseClient {
   if (!client) {
     const url = process.env.SUPABASE_URL;
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    const key = process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY;
     if (!url || !key) {
-      throw new Error('SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set');
+      throw new Error('SUPABASE_URL and SUPABASE_SECRET_KEY (or SUPABASE_SERVICE_ROLE_KEY) must be set');
     }
     client = createClient(url, key, { auth: { persistSession: false } });
   }

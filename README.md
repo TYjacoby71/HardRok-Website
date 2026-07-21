@@ -19,7 +19,9 @@ open items: `docs/TODO.md` · agent rules: `CLAUDE.md`.
 Copy `.env.example` to `.env` locally; set the same in the Netlify UI for
 deploys.
 
-- `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — lead system of record
+- `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (`sb_secret_…` from Project Settings →
+  API Keys; legacy `SUPABASE_SERVICE_ROLE_KEY` also accepted) — lead system of
+  record
 - `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER` — SMS flows
 - `CRM_ENABLED` — master delivery switch. `false` (launch default) emails each
   lead to `LEAD_EMAIL_TO` (`crm_status='email_sent'`), like the old GoDaddy
