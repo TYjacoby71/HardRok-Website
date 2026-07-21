@@ -1,0 +1,37 @@
+---
+// Industries hub. TODO: client to supply final intro copy.
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+
+const industries = (await getCollection('industries')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Industries', href: '/industries/' },
+];
+---
+
+<BaseLayout
+  title="Industries We Serve | Mining & Aggregate | HardRok"
+  description="Crusher parts, screen media & conveyor components for aggregate, hard-rock mining, gold mining, sand-and-gravel & recycling operations."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Industries We Serve</h1>
+    <p class="prose-measure mt-4 text-steel">
+      Different feeds punish parts differently. We match wear metal, media, and components to the
+      material you actually run. <TodoBadge label="TODO: final intro copy from client" />
+    </p>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        industries.map((ind) => (
+          <a href={`/industries/${ind.slug}/`} class="card block p-6 no-underline">
+            <h2 class="text-h3 normal-case text-ink">{ind.data.title}</h2>
+            <p class="mt-2 text-meta text-steel">{ind.data.metaDescription}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

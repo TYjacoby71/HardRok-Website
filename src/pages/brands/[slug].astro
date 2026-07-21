@@ -1,0 +1,113 @@
+---
+// Brand page template (SPEC §5.4): "to fit"/"aftermarket" wording throughout,
+// model list, part types linking to product pages, CTA, verbatim disclaimer.
+// The CMS Cepcor page is the authorized-dealer exception.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const brands = await getCollection('brands');
+  return brands.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'brands'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Brands', href: '/brands/' },
+  { label: data.brandName, href: `/brands/${entry.slug}/` },
+];
+---
+
+<BaseLayout title={data.metaTitle} description={data.metaDescription} breadcrumbs={crumbs}>
+  <article class="container-content section-pad">
+    <h1>{data.title}</h1>
+
+    <div class="prose-measure mt-6 space-y-4 [&_p]:leading-relaxed">
+      <Content />
+    </div>
+
+    {
+      data.models.length > 0 && (
+        <section class="mt-10">
+          <h2 class="mb-3">Models We Support</h2>
+          {data.modelsTodo && (
+            <p class="mb-3 text-meta text-steel">
+              Model list pending client confirmation <TodoBadge label="TODO: confirm models" /> —
+              call to confirm fit.
+            </p>
+          )}
+          <ul class="flex flex-wrap gap-3">
+            {data.models.map((model) => (
+              <li class="rounded border border-steel/40 bg-white px-4 py-2 text-nav font-medium">
+                {model}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+    {
+      data.models.length === 0 && !data.authorizedDealer && (
+        <section class="mt-10">
+          <h2 class="mb-3">Models We Support</h2>
+          <p class="text-steel">
+            <TodoBadge label="TODO: confirm model list" /> Model coverage is being confirmed —
+            call <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> with
+            your machine model and we'll confirm fit on the spot.
+          </p>
+        </section>
+      )
+    }
+
+    {
+      data.partTypes.length > 0 && (
+        <section class="mt-10">
+          <h2 class="mb-4">Available Part Types</h2>
+          <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {data.partTypes.map((pt) => (
+              <li>
+                <a href={pt.href} class="card block p-4 font-medium text-ink no-underline">
+                  {pt.label} →
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="mt-12 grid gap-10 lg:grid-cols-2">
+      <LeadForm
+        source="product_form"
+        sourcePage={`/brands/${entry.slug}/`}
+        compact
+        prefillCategory="Crusher Parts"
+        heading={`Get a quote on ${data.brandName} fit parts`}
+      />
+      <div class="space-y-4">
+        <h2 class="text-h3">Fastest path to a quote</h2>
+        <p class="text-steel">
+          Machine model + a photo of the worn part. Call{' '}
+          <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> or use the full
+          quote form.
+        </p>
+        <CTAButton href="/quote/" variant="secondary">Full quote form</CTAButton>
+      </div>
+    </section>
+
+    <div class="mt-12">
+      <TrademarkDisclaimer />
+    </div>
+  </article>
+</BaseLayout>

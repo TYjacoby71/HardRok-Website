@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/about/' },
+];
+---
+
+<BaseLayout
+  title="About HardRok Equipment | Aggregate & Mining Parts"
+  description="HardRok Equipment supplies aftermarket crusher, conveyor & screening parts to mining and aggregate producers across the western U.S. Learn our story."
+  breadcrumbs={crumbs}
+>
+  <article class="container-content section-pad">
+    <h1>40 Years Keeping Crushing Operations Running</h1>
+
+    <div class="prose-measure mt-6 space-y-4">
+      <p>
+        HardRok Equipment was built by people who have stood in the pit at 3am with a crusher
+        down. We supply the wear parts, screen media, and conveyor components that keep aggregate
+        and hard-rock mining operations producing — backed by technical knowledge most parts
+        suppliers can't offer.
+      </p>
+      <p class="text-steel">
+        <TodoBadge label="TODO: founding year" />
+        <TodoBadge label="TODO: HQ & warehouse locations" />
+        <TodoBadge label="TODO: team size" />
+        — company history details are being confirmed with HardRok and will appear here.
+      </p>
+      <p>
+        What we can tell you now: we've spent over 40 years supplying crushing, conveying, and
+        screening operations; we answer the phone {SITE.hours}; and we're an authorized
+        <a href="/brands/cms-cepcor/" class="underline">CMS Cepcor dealer</a> alongside our own
+        <a href="/products/battleborn-wear-products/" class="underline">Battleborn™</a> wear line.
+      </p>
+    </div>
+
+    <div class="mt-8 flex flex-wrap gap-4">
+      <CTAButton href="/team/">Meet the team</CTAButton>
+      <CTAButton href="/quote/" variant="secondary">Request a quote</CTAButton>
+    </div>
+  </article>
+</BaseLayout>

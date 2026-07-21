@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import RepCard from '@components/RepCard.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+
+const team = (await getCollection('team', ({ data }) => data.active)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Team', href: '/team/' },
+];
+---
+
+<BaseLayout
+  title="Our Team | HardRok Equipment"
+  description="HardRok's parts specialists know crushers, screens & conveyors. Find your territory rep, get a direct line, and book a 15-minute parts consultation."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Talk to a HardRok Parts Specialist</h1>
+    <p class="prose-measure mt-4 text-steel">
+      Our reps quote crusher, screen, and conveyor parts every day — and they know the territories
+      they cover. Find yours below.
+      <TodoBadge label="TODO: confirm full rep roster (TODO.md Part 2D)" />
+    </p>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {team.map((rep) => <RepCard rep={rep} />)}
+    </div>
+  </div>
+</BaseLayout>

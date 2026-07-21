@@ -1,0 +1,50 @@
+---
+// Brands hub — "Replacement parts to fit:" (SPEC §4).
+// TODO: client to supply final intro copy (hub pages without CONTENT.md briefs).
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+
+const brands = (await getCollection('brands')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Brands', href: '/brands/' },
+];
+---
+
+<BaseLayout
+  title="Replacement Parts to Fit Major Brands | HardRok"
+  description="Aftermarket replacement parts to fit Symons, Metso/Nordberg HP & MP, Sandvik, Omnicone, Telsmith, Cedarapids & Allis-Chalmers crushers. CMS Cepcor dealer."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Replacement Parts to Fit:</h1>
+    <p class="prose-measure mt-4 text-steel">
+      HardRok is an independent aftermarket supplier — our parts are engineered replacements built
+      to fit the machines below, not OEM products.
+      <TodoBadge label="TODO: final intro copy from client" />
+    </p>
+
+    <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        brands.map((brand) => (
+          <li>
+            <a href={`/brands/${brand.slug}/`} class="card block p-6 no-underline">
+              <h2 class="text-h3 normal-case text-ink">{brand.data.brandName}</h2>
+              <p class="mt-2 text-meta text-steel">
+                {brand.data.authorizedDealer
+                  ? 'Authorized dealer'
+                  : 'Aftermarket parts engineered to fit'}
+              </p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="mt-12">
+      <TrademarkDisclaimer />
+    </div>
+  </div>
+</BaseLayout>

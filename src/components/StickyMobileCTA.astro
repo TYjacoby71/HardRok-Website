@@ -1,0 +1,31 @@
+---
+// Persistent bottom bar on mobile: [Call] [Text] [Quote] (SPEC §2.4).
+// Present on all pages except /lp/* (LandingLayout simply omits it).
+// TODO: point the Text button at the Twilio text-to-quote number once
+// provisioned (TODO.md Part 2E) via PUBLIC_TEXT_QUOTE_NUMBER.
+import { SITE } from '@lib/site';
+
+const textHref = SITE.textQuoteNumber
+  ? `sms:${SITE.textQuoteNumber.replace(/[^+\d]/g, '')}`
+  : '/contact/#text-to-quote';
+---
+
+<nav
+  aria-label="Quick contact"
+  class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-3 border-t border-card bg-white shadow-[0_-2px_8px_rgba(26,29,33,0.12)] md:hidden"
+>
+  <a href={SITE.phoneHref} class="py-3.5 text-center text-nav font-semibold text-ink no-underline">
+    Call
+  </a>
+  <a
+    href={textHref}
+    class="border-x border-card py-3.5 text-center text-nav font-semibold text-ink no-underline"
+  >
+    Text
+  </a>
+  <a href="/quote/" class="bg-safety py-3.5 text-center text-nav font-bold text-ink no-underline">
+    Quote
+  </a>
+</nav>
+<!-- Spacer so the fixed bar never overlaps page content on mobile -->
+<div class="h-12 md:hidden" aria-hidden="true"></div>

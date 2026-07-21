@@ -1,0 +1,68 @@
+---
+// Primary conversion page (SPEC §5.7).
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import { SITE } from '@lib/site';
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Request a Quote', href: '/quote/' },
+];
+---
+
+<BaseLayout
+  title="Request a Quote | HardRok Equipment"
+  description="Get a fast quote on aftermarket crusher parts, screen media, or conveyor components. Send a photo of your worn part — we'll call you within 2 business hours."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Request a Parts Quote</h1>
+    <p class="prose-measure mt-4 text-steel">
+      Five fields and you're done. Attach a photo of the worn part if you have one — it's the
+      fastest path to an exact match.
+    </p>
+
+    <div class="mt-8 grid items-start gap-10 lg:grid-cols-2">
+      <LeadForm source="quote_form" sourcePage="/quote/" fileUpload />
+
+      <div class="space-y-8">
+        <section class="card p-6" id="text-to-quote">
+          <h2 class="text-h3">Prefer to text?</h2>
+          <p class="mt-2 text-steel">
+            {
+              SITE.textQuoteNumber ? (
+                <>
+                  Send a photo of your part to{' '}
+                  <a
+                    href={`sms:${SITE.textQuoteNumber.replace(/[^+\d]/g, '')}`}
+                    class="font-semibold underline"
+                  >
+                    {SITE.textQuoteNumber}
+                  </a>{' '}
+                  with your machine model, and a parts specialist will text you back.
+                </>
+              ) : (
+                <>
+                  Text-to-quote is being set up <TodoBadge label="TODO: Twilio number" /> — for
+                  now, the fastest route is the form (attach a photo) or a call.
+                </>
+              )
+            }
+          </p>
+        </section>
+
+        <section class="card p-6">
+          <h2 class="text-h3">Rather talk?</h2>
+          <p class="mt-2 text-steel">
+            Call
+            <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> — {SITE.hours}.
+            You'll reach a parts specialist, not a phone tree.
+          </p>
+        </section>
+
+        <p class="text-meta text-steel">{SITE.responsePromise}</p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

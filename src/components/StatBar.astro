@@ -1,0 +1,23 @@
+---
+// "40+ years" is confirmed on the existing site (TODO.md Part 1).
+// SKU count and ship time are NOT confirmed — visible placeholders only.
+// TODO: replace placeholders once client supplies StatBar numbers (TODO.md Part 2C).
+import TodoBadge from './TodoBadge.astro';
+---
+
+<div class="bg-ink text-white">
+  <dl class="container-content grid grid-cols-1 gap-6 py-8 text-center sm:grid-cols-3">
+    <div>
+      <dt class="text-meta uppercase tracking-heading text-white/70">Years keeping plants running</dt>
+      <dd class="font-heading text-h2 font-bold text-safety">40+</dd>
+    </div>
+    <div>
+      <dt class="text-meta uppercase tracking-heading text-white/70">Parts stocked &amp; sourced</dt>
+      <dd class="font-heading text-h2 font-bold text-safety"><TodoBadge label="TODO: SKU count" /></dd>
+    </div>
+    <div>
+      <dt class="text-meta uppercase tracking-heading text-white/70">Average ship time</dt>
+      <dd class="font-heading text-h2 font-bold text-safety"><TodoBadge label="TODO: ship time" /></dd>
+    </div>
+  </dl>
+</div>

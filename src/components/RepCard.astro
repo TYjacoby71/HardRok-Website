@@ -1,0 +1,70 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import TodoBadge from './TodoBadge.astro';
+import CTAButton from './CTAButton.astro';
+import { SITE } from '@lib/site';
+
+interface Props {
+  rep: CollectionEntry<'team'>;
+  showLink?: boolean;
+}
+const { rep, showLink = true } = Astro.props;
+const { name, jobTitle, territory, phone, phoneConfirmed, email, emailConfirmed, calendarUrl, photoTodo } =
+  rep.data;
+---
+
+<article class="card flex flex-col gap-4 p-6">
+  {
+    photoTodo ? (
+      <div
+        class="flex h-40 w-40 items-center justify-center rounded-full bg-steel/20"
+        role="img"
+        aria-label={`Photo of ${name} coming soon`}
+      >
+        <TodoBadge label="TODO: headshot" />
+      </div>
+    ) : null
+  }
+  <div>
+    <h3 class="text-ink">{name}</h3>
+    <p class="text-meta font-medium uppercase tracking-heading text-steel">{jobTitle}</p>
+    <p class="mt-1 text-meta text-steel">Territory: {territory}</p>
+  </div>
+  <ul class="space-y-1 text-body">
+    <li>
+      Direct line:{' '}
+      {phone && phoneConfirmed ? (
+        <a href={`tel:${phone.replace(/[^+\d]/g, '')}`} class="font-semibold underline">
+          {phone}
+        </a>
+      ) : (
+        <>
+          <a href={SITE.phoneHref} class="font-semibold underline">
+            {SITE.phone}
+          </a>{' '}
+          <TodoBadge label="TODO: confirm direct phone" />
+        </>
+      )}
+    </li>
+    <li>
+      Email:{' '}
+      {email && emailConfirmed ? (
+        <a href={`mailto:${email}`} class="font-semibold underline">
+          {email}
+        </a>
+      ) : (
+        <TodoBadge label="TODO: confirm email" />
+      )}
+    </li>
+  </ul>
+  <div class="mt-auto flex flex-wrap gap-3">
+    {
+      calendarUrl ? (
+        <CTAButton href={calendarUrl}>Book a 15-min consult</CTAButton>
+      ) : (
+        <CTAButton href={SITE.phoneHref}>Call {SITE.phone}</CTAButton>
+      )
+    }
+    {showLink && <CTAButton href={`/team/${rep.slug}/`} variant="secondary">Profile</CTAButton>}
+  </div>
+</article>

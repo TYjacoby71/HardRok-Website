@@ -1,0 +1,23 @@
+---
+// Form success page — the no-JS submission flow 303-redirects here.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+---
+
+<BaseLayout
+  title="Request Received | HardRok Equipment"
+  description="Your quote request is in. A HardRok rep will call you within 2 business hours, Mon–Fri 7–5 PST."
+  noindex
+>
+  <div class="container-content section-pad text-center">
+    <h1>Got it — we're on it.</h1>
+    <p class="mx-auto mt-4 max-w-xl text-steel">{SITE.responsePromise}</p>
+    <p class="mx-auto mt-2 max-w-xl text-steel">
+      Need it faster? Call <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> now.
+    </p>
+    <div class="mt-8">
+      <CTAButton href="/">Back to home</CTAButton>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,60 @@
+---
+// Paid-traffic landing page (SPEC §5.8) — noindex.
+import LandingLayout from '@layouts/LandingLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import { SITE } from '@lib/site';
+---
+
+<LandingLayout
+  title="Custom Screen Media Made in Days | HardRok"
+  description="Premium woven wire and urethane screen media to your exact spec. Send your deck size and opening for a fast quote."
+  noindex
+>
+  <section class="bg-ink text-white">
+    <div class="container-content grid items-start gap-10 py-12 lg:grid-cols-2">
+      <div>
+        <h1 class="text-white">Custom Screen Media — Made in Days, Not Weeks</h1>
+        <p class="mt-5 text-body text-white/85">
+          Premium woven wire and urethane media to your exact spec. Send your deck size and
+          opening for a fast quote.
+        </p>
+        <ul class="mt-6 space-y-2 text-white/85">
+          <li>✓ Premium media made in a few days</li>
+          <li>✓ Woven wire, urethane &amp; rubber</li>
+          <li>✓ Matched to your deck, hooks &amp; openings</li>
+        </ul>
+        <p class="mt-6 text-body">
+          {
+            SITE.textQuoteNumber ? (
+              <>
+                Text your deck specs to{' '}
+                <a
+                  href={`sms:${SITE.textQuoteNumber.replace(/[^+\d]/g, '')}`}
+                  class="font-semibold text-safety underline"
+                >
+                  {SITE.textQuoteNumber}
+                </a>
+              </>
+            ) : (
+              <>
+                Call now:{' '}
+                <a href={SITE.phoneHref} class="font-semibold text-safety underline">
+                  {SITE.phone}
+                </a>{' '}
+                <TodoBadge label="TODO: text-to-quote number" />
+              </>
+            )
+          }
+        </p>
+      </div>
+
+      <LeadForm
+        source="landing_page"
+        sourcePage="/lp/screen-media-quote/"
+        heading="Quote my screen media"
+        prefillCategory="Screening"
+      />
+    </div>
+  </section>
+</LandingLayout>

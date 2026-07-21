@@ -1,0 +1,50 @@
+---
+// details/summary works without JS and is keyboard-accessible.
+// Links are bottom-weighted in a fullscreen overlay for thumb reach (SPEC §2.4).
+import { NAV_LINKS, SITE } from '@lib/site';
+---
+
+<details class="mobile-nav xl:hidden">
+  <summary
+    class="flex h-11 w-11 cursor-pointer list-none flex-col items-center justify-center gap-1.5 rounded border border-steel/40"
+    aria-label="Open menu"
+  >
+    <span class="block h-0.5 w-6 bg-ink" aria-hidden="true"></span>
+    <span class="block h-0.5 w-6 bg-ink" aria-hidden="true"></span>
+    <span class="block h-0.5 w-6 bg-ink" aria-hidden="true"></span>
+  </summary>
+  <div class="fixed inset-0 top-[57px] z-50 flex flex-col justify-end overflow-y-auto bg-ink px-6 pb-24 pt-8">
+    <nav aria-label="Mobile">
+      <ul class="space-y-1">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="block rounded px-2 py-3 font-heading text-h3 font-semibold uppercase tracking-heading text-white no-underline hover:bg-steel/40"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="pt-4">
+          <a
+            href="/quote/"
+            class="block rounded bg-safety px-4 py-4 text-center font-heading text-h3 font-bold uppercase tracking-heading text-ink no-underline"
+          >
+            Request a Quote
+          </a>
+        </li>
+        <li class="pt-2">
+          <a
+            href={SITE.phoneHref}
+            class="block rounded border-2 border-white px-4 py-3 text-center text-body font-semibold text-white no-underline"
+          >
+            Call {SITE.phone}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</details>

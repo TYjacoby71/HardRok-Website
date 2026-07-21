@@ -1,0 +1,40 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const articles = (await getCollection('resources', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/resources/' },
+];
+---
+
+<BaseLayout
+  title="Resources & Guides | HardRok Equipment"
+  description="Practical guides on crusher wear parts, manganese selection, screen media & conveyor maintenance from HardRok's 40 years in the field."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Crushing, Screening &amp; Conveying Knowledge</h1>
+    <p class="prose-measure mt-4 text-steel">
+      Forty years of field experience, written down. These guides answer the questions our phones
+      ring with every week.
+    </p>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        articles.map((article) => (
+          <a href={`/resources/${article.slug}/`} class="card block p-6 no-underline">
+            <h2 class="text-h3 normal-case text-ink">{article.data.title}</h2>
+            <p class="mt-2 text-meta text-steel">{article.data.description}</p>
+            <span class="mt-4 inline-block text-meta font-semibold uppercase tracking-heading text-ink underline">
+              Read →
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

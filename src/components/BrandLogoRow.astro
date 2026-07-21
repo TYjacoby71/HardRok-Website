@@ -1,0 +1,41 @@
+---
+// SPEC §2.4 calls for real <img> logos with alt text. Logo files are pending
+// permission/fair-use review (TODO.md Part 2F), and placeholder images may not
+// contain text (SPEC §2.5 / rubric). Until approved logo assets arrive, brands
+// render as real-text tiles — swap in <img> tags when files land.
+// TODO: replace text tiles with approved logo images (grayscale-to-color on hover).
+import { getCollection } from 'astro:content';
+
+interface Props {
+  heading?: string;
+}
+const { heading = 'Replacement parts to fit:' } = Astro.props;
+
+const brands = (await getCollection('brands')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<section class="section-pad bg-white">
+  <div class="container-content">
+    <h2 class="mb-8 text-center">{heading}</h2>
+    <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+      {
+        brands.map((brand) => (
+          <li>
+            <a
+              href={`/brands/${brand.slug}/`}
+              class="font-heading text-h4 font-semibold uppercase tracking-heading text-steel no-underline transition-colors hover:text-ink"
+            >
+              {brand.data.brandName}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="mt-6 text-center text-meta text-steel">
+      All parts are premium aftermarket replacements engineered to fit — HardRok is an
+      independent supplier, not affiliated with these manufacturers.
+    </p>
+  </div>
+</section>

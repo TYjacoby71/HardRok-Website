@@ -1,0 +1,43 @@
+---
+// Service-areas hub with TerritoryMap (SPEC §4).
+// TODO: client to supply final intro copy (hub pages without CONTENT.md briefs).
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TerritoryMap from '@components/TerritoryMap.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+
+const areas = (await getCollection('service-areas')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Service Areas', href: '/service-areas/' },
+];
+---
+
+<BaseLayout
+  title="Service Areas | Western U.S. Coverage | HardRok"
+  description="HardRok Equipment serves Nevada, California, Arizona, Utah & Idaho with crusher parts, screen media & conveyor components. Find your territory rep."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Where We Work</h1>
+    <p class="prose-measure mt-4 text-steel">
+      HardRok covers the western U.S. with territory reps who know the pits they serve — and fast
+      freight everywhere else. <TodoBadge label="TODO: final intro copy from client" />
+    </p>
+
+    <div class="mt-10">
+      <TerritoryMap />
+    </div>
+
+    <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        areas.map((area) => (
+          <a href={`/service-areas/${area.slug}/`} class="card block p-6 no-underline">
+            <h2 class="text-h3 normal-case text-ink">{area.data.state}</h2>
+            <p class="mt-2 text-meta text-steel">{area.data.metaDescription}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

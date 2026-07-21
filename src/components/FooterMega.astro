@@ -1,0 +1,123 @@
+---
+// Footer requirements per SPEC §3: NAP, hours, full HTML sitemap links,
+// territory links.
+import { getCollection } from 'astro:content';
+import { SITE } from '@lib/site';
+import TodoBadge from './TodoBadge.astro';
+
+const products = (await getCollection('products', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const brands = (await getCollection('brands')).sort((a, b) => a.data.order - b.data.order);
+const areas = (await getCollection('service-areas')).sort((a, b) => a.data.order - b.data.order);
+const industries = (await getCollection('industries')).sort((a, b) => a.data.order - b.data.order);
+
+const companyLinks = [
+  { label: 'About', href: '/about/' },
+  { label: 'Our Team', href: '/team/' },
+  { label: 'Equipment for Sale', href: '/equipment-for-sale/' },
+  { label: 'Resources', href: '/resources/' },
+  { label: 'Request a Quote', href: '/quote/' },
+  { label: 'Contact', href: '/contact/' },
+  { label: 'HTML Sitemap', href: '/sitemap/' },
+];
+
+const year = new Date().getFullYear();
+const linkClass = 'text-meta text-white/75 no-underline hover:text-white hover:underline';
+const headingClass = 'mb-3 font-heading text-h4 font-semibold uppercase tracking-heading text-safety';
+---
+
+<footer class="bg-ink pb-24 pt-12 text-white md:pb-12">
+  <div class="container-content grid gap-10 md:grid-cols-2 lg:grid-cols-5">
+    <div class="lg:col-span-1">
+      <p class="font-heading text-h3 font-bold uppercase tracking-heading text-white">
+        HardRok <span class="text-white/70">Equipment</span>
+      </p>
+      <address class="mt-3 space-y-1 not-italic text-meta text-white/75">
+        <p>
+          <a href={SITE.phoneHref} class="font-semibold text-white no-underline hover:underline">
+            {SITE.phone}
+          </a>
+        </p>
+        <p>{SITE.hours}</p>
+        <p>
+          {SITE.addressLocality}, {SITE.addressRegion}
+          {SITE.streetAddressTodo && <TodoBadge label="TODO: street address" />}
+        </p>
+      </address>
+    </div>
+
+    <nav aria-label="Products footer">
+      <h2 class={headingClass}>Products</h2>
+      <ul class="space-y-1.5">
+        {
+          products.map((p) => (
+            <li>
+              <a class={linkClass} href={`/products/${p.slug}/`}>
+                {p.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-label="Brands footer">
+      <h2 class={headingClass}>Parts to Fit</h2>
+      <ul class="space-y-1.5">
+        {
+          brands.map((b) => (
+            <li>
+              <a class={linkClass} href={`/brands/${b.slug}/`}>
+                {b.data.brandName}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-label="Territories footer">
+      <h2 class={headingClass}>Where We Work</h2>
+      <ul class="space-y-1.5">
+        {
+          areas.map((a) => (
+            <li>
+              <a class={linkClass} href={`/service-areas/${a.slug}/`}>
+                {a.data.state}
+              </a>
+            </li>
+          ))
+        }
+        {
+          industries.map((i) => (
+            <li>
+              <a class={linkClass} href={`/industries/${i.slug}/`}>
+                {i.data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav aria-label="Company footer">
+      <h2 class={headingClass}>Company</h2>
+      <ul class="space-y-1.5">
+        {
+          companyLinks.map((l) => (
+            <li>
+              <a class={linkClass} href={l.href}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+
+  <div class="container-content mt-10 border-t border-steel pt-6 text-meta text-white/60">
+    <p>&copy; {year} {SITE.legalName} All rights reserved.</p>
+  </div>
+</footer>

@@ -1,0 +1,110 @@
+---
+// Human-readable HTML sitemap (SPEC §4). Collection-driven, so new content
+// appears here automatically.
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const products = (await getCollection('products', ({ data }) => !data.draft)).sort((a, b) =>
+  a.slug.localeCompare(b.slug),
+);
+const brands = (await getCollection('brands')).sort((a, b) => a.data.order - b.data.order);
+const areas = (await getCollection('service-areas')).sort((a, b) => a.data.order - b.data.order);
+const industries = (await getCollection('industries')).sort((a, b) => a.data.order - b.data.order);
+const team = (await getCollection('team', ({ data }) => data.active)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const resources = (await getCollection('resources', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const equipment = (await getCollection('equipment-for-sale', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const sections: { heading: string; links: { label: string; href: string }[] }[] = [
+  {
+    heading: 'Main',
+    links: [
+      { label: 'Home', href: '/' },
+      { label: 'Products', href: '/products/' },
+      { label: 'Brands', href: '/brands/' },
+      { label: 'Equipment for Sale', href: '/equipment-for-sale/' },
+      { label: 'Service Areas', href: '/service-areas/' },
+      { label: 'Industries', href: '/industries/' },
+      { label: 'Team', href: '/team/' },
+      { label: 'Resources', href: '/resources/' },
+      { label: 'About', href: '/about/' },
+      { label: 'Contact', href: '/contact/' },
+      { label: 'Request a Quote', href: '/quote/' },
+      { label: 'Symons Parts (landing)', href: '/lp/symons-parts/' },
+    ],
+  },
+  {
+    heading: 'Products',
+    links: products.map((p) => ({ label: p.data.title, href: `/products/${p.slug}/` })),
+  },
+  {
+    heading: 'Brands',
+    links: brands.map((b) => ({ label: b.data.brandName, href: `/brands/${b.slug}/` })),
+  },
+  {
+    heading: 'Service Areas',
+    links: areas.map((a) => ({ label: a.data.state, href: `/service-areas/${a.slug}/` })),
+  },
+  {
+    heading: 'Industries',
+    links: industries.map((i) => ({ label: i.data.title, href: `/industries/${i.slug}/` })),
+  },
+  {
+    heading: 'Team',
+    links: team.map((t) => ({ label: t.data.name, href: `/team/${t.slug}/` })),
+  },
+  {
+    heading: 'Resources',
+    links: resources.map((r) => ({ label: r.data.title, href: `/resources/${r.slug}/` })),
+  },
+  ...(equipment.length > 0
+    ? [
+        {
+          heading: 'Equipment for Sale',
+          links: equipment.map((e) => ({
+            label: e.data.title,
+            href: `/equipment-for-sale/${e.slug}/`,
+          })),
+        },
+      ]
+    : []),
+];
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Sitemap', href: '/sitemap/' },
+];
+---
+
+<BaseLayout
+  title="Sitemap | HardRok Equipment"
+  description="Full index of every page on hardrok.com — products, brands, service areas, industries, team, resources, and contact pages."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Sitemap</h1>
+    <div class="mt-8 grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+      {
+        sections.map((section) => (
+          <nav aria-label={`Sitemap: ${section.heading}`}>
+            <h2 class="mb-3 text-h3">{section.heading}</h2>
+            <ul class="space-y-1.5">
+              {section.links.map((link) => (
+                <li>
+                  <a href={link.href} class="text-steel underline hover:text-ink">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+  </div>
+</BaseLayout>

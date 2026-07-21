@@ -1,0 +1,28 @@
+---
+interface Props {
+  title: string;
+  href: string;
+  description: string;
+  flagship?: boolean;
+}
+const { title, href, description, flagship = false } = Astro.props;
+---
+
+<a
+  href={href}
+  class:list={[
+    'card block p-6 no-underline',
+    flagship && 'border-2 border-safety bg-ink text-white',
+  ]}
+>
+  <h3 class:list={['mb-2', flagship ? 'text-safety' : 'text-ink']}>{title}</h3>
+  <p class:list={['text-meta', flagship ? 'text-white/80' : 'text-steel']}>{description}</p>
+  <span
+    class:list={[
+      'mt-4 inline-block text-meta font-semibold uppercase tracking-heading',
+      flagship ? 'text-safety' : 'text-ink underline',
+    ]}
+  >
+    View parts →
+  </span>
+</a>

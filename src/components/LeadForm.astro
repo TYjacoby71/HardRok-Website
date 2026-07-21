@@ -1,0 +1,157 @@
+---
+// Native HTML form, works with JS disabled (SPEC §1): plain POST to the
+// Netlify Function, which 303-redirects to /thanks/.
+import { LEAD_ENDPOINT, QUOTE_CATEGORIES, SERVICE_STATES, SITE } from '@lib/site';
+
+interface Props {
+  source: 'quote_form' | 'product_form' | 'landing_page';
+  sourcePage: string;
+  compact?: boolean;
+  prefillCategory?: string;
+  territory?: string; // state abbr pre-tag for service-area pages
+  fileUpload?: boolean;
+  heading?: string;
+}
+const {
+  source,
+  sourcePage,
+  compact = false,
+  prefillCategory,
+  territory,
+  fileUpload = false,
+  heading = compact ? 'Get a fast quote' : 'Request a Parts Quote',
+}: Props = Astro.props;
+
+const inputClass =
+  'w-full rounded border border-steel/40 bg-white px-3 py-2.5 text-body text-ink placeholder:text-steel/60';
+const labelClass = 'mb-1 block text-meta font-semibold text-ink';
+const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 + c.charCodeAt(0), 7)) % 10000}`;
+---
+
+<form
+  method="POST"
+  action={LEAD_ENDPOINT}
+  enctype={fileUpload ? 'multipart/form-data' : 'application/x-www-form-urlencoded'}
+  class="card space-y-4 p-6"
+  aria-labelledby={`${uid}-heading`}
+>
+  <h2 id={`${uid}-heading`} class="text-h3 normal-case">{heading}</h2>
+
+  <input type="hidden" name="source" value={source} />
+  <input type="hidden" name="source_page" value={sourcePage} />
+  {territory && <input type="hidden" name="state" value={territory} />}
+  {compact && prefillCategory && <input type="hidden" name="category" value={prefillCategory} />}
+
+  <!-- Honeypot: hidden from real users, rejected server-side when filled -->
+  <p class="sr-only" aria-hidden="true">
+    <label for={`${uid}-hp`}>Leave this field empty</label>
+    <input id={`${uid}-hp`} type="text" name="company_website" tabindex="-1" autocomplete="off" />
+  </p>
+
+  <p>
+    <label class={labelClass} for={`${uid}-name`}>Name <span aria-hidden="true">*</span></label>
+    <input id={`${uid}-name`} class={inputClass} type="text" name="name" required autocomplete="name" />
+  </p>
+  <p>
+    <label class={labelClass} for={`${uid}-phone`}>Phone <span aria-hidden="true">*</span></label>
+    <input id={`${uid}-phone`} class={inputClass} type="tel" name="phone" required autocomplete="tel" />
+  </p>
+
+  {
+    !compact && (
+      <>
+        {!territory && (
+          <p>
+            <label class={labelClass} for={`${uid}-state`}>
+              State <span aria-hidden="true">*</span>
+            </label>
+            <select id={`${uid}-state`} class={inputClass} name="state" required>
+              <option value="">Select your state…</option>
+              {SERVICE_STATES.map((s) => (
+                <option value={s.abbr}>{s.name}</option>
+              ))}
+              <option value="OTHER">Other / outside these states</option>
+            </select>
+          </p>
+        )}
+        <p>
+          <label class={labelClass} for={`${uid}-category`}>
+            What do you need? <span aria-hidden="true">*</span>
+          </label>
+          <select id={`${uid}-category`} class={inputClass} name="category" required>
+            {QUOTE_CATEGORIES.map((c) => (
+              <option value={c} selected={c === prefillCategory}>
+                {c}
+              </option>
+            ))}
+          </select>
+        </p>
+        <p>
+          <label class={labelClass} for={`${uid}-message`}>
+            Message <span aria-hidden="true">*</span>
+          </label>
+          <textarea
+            id={`${uid}-message`}
+            class={inputClass}
+            name="message"
+            rows="4"
+            required
+            placeholder="Part needed, machine make/model, or describe the problem"
+          />
+        </p>
+        <p>
+          <label class={labelClass} for={`${uid}-email`}>Email (optional)</label>
+          <input id={`${uid}-email`} class={inputClass} type="email" name="email" autocomplete="email" />
+        </p>
+        <p>
+          <label class={labelClass} for={`${uid}-company`}>Company (optional)</label>
+          <input id={`${uid}-company`} class={inputClass} type="text" name="company" autocomplete="organization" />
+        </p>
+        <p>
+          <label class={labelClass} for={`${uid}-machine`}>Machine make / model (optional)</label>
+          <input id={`${uid}-machine`} class={inputClass} type="text" name="machine" />
+        </p>
+        {fileUpload && (
+          <p>
+            <label class={labelClass} for={`${uid}-file`}>
+              Photo of the worn part (optional)
+            </label>
+            <input
+              id={`${uid}-file`}
+              class="w-full text-body"
+              type="file"
+              name="attachment"
+              accept="image/*"
+            />
+          </p>
+        )}
+      </>
+    )
+  }
+
+  {
+    compact && (
+      <p>
+        <label class={labelClass} for={`${uid}-part`}>
+          Part needed <span aria-hidden="true">*</span>
+        </label>
+        <input
+          id={`${uid}-part`}
+          class={inputClass}
+          type="text"
+          name="message"
+          required
+          placeholder="e.g. bowl liner, blow bars, screen cloth"
+        />
+      </p>
+    )
+  }
+
+  <button
+    type="submit"
+    class="w-full rounded border-2 border-safety bg-safety px-6 py-3 text-body font-semibold text-ink transition-colors hover:border-safety-hover hover:bg-safety-hover"
+  >
+    {compact ? 'Get my quote' : 'Send quote request'}
+  </button>
+  <p class="text-meta text-steel">{SITE.responsePromise}</p>
+</form>

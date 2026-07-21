@@ -1,0 +1,63 @@
+---
+// INDEXABLE landing page (SPEC §5.8) — highest-value brand keyword.
+import LandingLayout from '@layouts/LandingLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import { SITE } from '@lib/site';
+---
+
+<LandingLayout
+  title="Symons Cone Crusher Parts In Stock | HardRok"
+  description="Aftermarket mantles, bowl liners & concaves to fit 2ft–7ft Symons cone crushers, in multiple manganese grades. Fast quotes, fast shipping."
+  noindex={false}
+>
+  <section class="bg-ink text-white">
+    <div class="container-content grid items-start gap-10 py-12 lg:grid-cols-2">
+      <div>
+        <h1 class="text-white">Aftermarket Parts to Fit Symons Cone Crushers — In Stock</h1>
+        <p class="mt-5 text-body text-white/85">
+          Mantles, bowl liners, and concaves for 2ft–7ft Symons cones, in multiple manganese
+          grades. Fast quotes, fast shipping.
+        </p>
+        <ul class="mt-6 space-y-2 text-white/85">
+          <li>✓ Standard &amp; shorthead configurations</li>
+          <li>✓ Multiple manganese grades matched to your feed</li>
+          <li>✓ 40+ years quoting Symons-style cone parts</li>
+        </ul>
+        <p class="mt-6 text-body">
+          {
+            SITE.textQuoteNumber ? (
+              <>
+                Text a photo of your liners to{' '}
+                <a
+                  href={`sms:${SITE.textQuoteNumber.replace(/[^+\d]/g, '')}`}
+                  class="font-semibold text-safety underline"
+                >
+                  {SITE.textQuoteNumber}
+                </a>
+              </>
+            ) : (
+              <>
+                Call now:{' '}
+                <a href={SITE.phoneHref} class="font-semibold text-safety underline">
+                  {SITE.phone}
+                </a>{' '}
+                <TodoBadge label="TODO: text-to-quote number" />
+              </>
+            )
+          }
+        </p>
+      </div>
+
+      <LeadForm
+        source="landing_page"
+        sourcePage="/lp/symons-parts/"
+        heading="Quote my Symons parts"
+      />
+    </div>
+  </section>
+  <div class="container-content py-8">
+    <TrademarkDisclaimer />
+  </div>
+</LandingLayout>

@@ -1,0 +1,63 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const industries = await getCollection('industries');
+  return industries.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'industries'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Industries', href: '/industries/' },
+  { label: data.title, href: `/industries/${entry.slug}/` },
+];
+---
+
+<BaseLayout title={data.metaTitle} description={data.metaDescription} breadcrumbs={crumbs}>
+  <article class="container-content section-pad">
+    <h1>{data.title}</h1>
+
+    <div class="prose-measure mt-6 space-y-4 [&_p]:leading-relaxed">
+      <Content />
+    </div>
+
+    {
+      data.relatedProducts.length > 0 && (
+        <section class="mt-10">
+          <h2 class="mb-4">What we supply for this work</h2>
+          <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {data.relatedProducts.map((rp) => (
+              <li>
+                <a href={rp.href} class="card block p-4 font-medium text-ink no-underline">
+                  {rp.label} →
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="mt-12 grid gap-10 lg:grid-cols-2">
+      <LeadForm source="product_form" sourcePage={`/industries/${entry.slug}/`} compact />
+      <div class="space-y-4">
+        <h2 class="text-h3">Talk to someone who knows your material</h2>
+        <p class="text-steel">
+          Call <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> — {SITE.hours}.
+        </p>
+        <CTAButton href="/quote/" variant="secondary">Full quote form</CTAButton>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

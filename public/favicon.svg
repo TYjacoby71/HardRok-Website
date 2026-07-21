@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Abstract crusher-jaw mark: no text (rubric: zero images contain text) -->
+  <rect width="32" height="32" rx="4" fill="#1A1D21"/>
+  <polygon points="6,26 13,6 17,6 12,26" fill="#F2A900"/>
+  <polygon points="19,26 24,10 27,10 24,26" fill="#3D444D"/>
+  <polygon points="15,26 20,12 22,12 19,26" fill="#F5F4F1"/>
+</svg>

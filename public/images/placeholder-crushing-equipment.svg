@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" width="1600" height="640">
+  <!-- TODO: replace with real equipment photography (TODO.md Part 2F).
+       Grayscale placeholder sized to spec; contains no text. -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a5058"/>
+      <stop offset="1" stop-color="#2a2e33"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="640" fill="url(#sky)"/>
+  <polygon points="0,640 300,340 520,470 760,280 1040,460 1300,320 1600,480 1600,640" fill="#3D444D" opacity="0.8"/>
+  <polygon points="0,640 220,460 460,560 700,420 980,560 1240,440 1600,560 1600,640" fill="#23262b" opacity="0.9"/>
+  <rect x="1080" y="360" width="260" height="30" fill="#565d66" transform="rotate(-18 1080 360)"/>
+  <circle cx="1120" cy="470" r="34" fill="#565d66"/>
+  <circle cx="1260" cy="430" r="34" fill="#565d66"/>
+</svg>

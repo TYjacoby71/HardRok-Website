@@ -1,0 +1,63 @@
+---
+// Landing pages (SPEC §5.8): logo + phone only, no nav, no footer links,
+// no StickyMobileCTA. noindex except /lp/symons-parts/.
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '../styles/global.css';
+import { organizationSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+interface Props {
+  title: string;
+  description: string;
+  noindex?: boolean;
+}
+const { title, description, noindex = true } = Astro.props;
+const canonical = `${SITE.origin}${Astro.url.pathname}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${SITE.origin}/images/og-default.svg`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(organizationSchema())} />
+  </head>
+  <body>
+    <header class="border-b border-card bg-white py-3">
+      <div class="container-content flex items-center justify-between gap-4">
+        <span class="flex items-baseline gap-1.5">
+          <span class="font-heading text-3xl font-bold uppercase tracking-heading text-ink">HardRok</span>
+          <span class="font-heading text-xl font-semibold uppercase tracking-heading text-steel">Equipment</span>
+        </span>
+        <a href={SITE.phoneHref} class="text-body font-semibold text-ink no-underline hover:underline">
+          {SITE.phone}
+        </a>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="bg-ink py-6 text-center text-meta text-white/70">
+      <p>
+        {SITE.legalName} · <a href={SITE.phoneHref} class="text-white underline">{SITE.phone}</a> ·
+        {SITE.hours}
+      </p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,63 @@
+---
+// Stylized (not geographically precise) SVG of the five stub states.
+// Decorative: aria-hidden, with an accessible text list rendered alongside.
+// Contains no text baked into imagery (SPEC §2.5).
+import { SERVICE_STATES } from '@lib/site';
+
+interface Props {
+  highlight?: string; // state abbr, e.g. "NV"
+  showList?: boolean;
+}
+const { highlight, showList = true } = Astro.props;
+
+const shapes: Record<string, string> = {
+  CA: '17,154 110,154 110,220 229,308 174,363 145,330 68,273 22,189',
+  NV: '110,154 242,154 242,264 225,308 110,220',
+  UT: '242,154 307,154 307,176 352,176 352,264 242,264',
+  AZ: '242,264 352,264 352,389 308,389 224,363 228,308',
+  ID: '176,154 176,66 172,0 198,0 231,66 307,110 307,154',
+};
+---
+
+<div class="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+  <svg
+    viewBox="0 0 375 400"
+    class="w-full max-w-sm"
+    width="375"
+    height="400"
+    aria-hidden="true"
+    focusable="false"
+  >
+    {
+      SERVICE_STATES.map((s) => (
+        <polygon
+          points={shapes[s.abbr]}
+          fill={s.abbr === highlight ? '#F2A900' : 'rgba(61,68,77,0.18)'}
+          stroke="#3D444D"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+      ))
+    }
+  </svg>
+  {
+    showList && (
+      <ul class="space-y-2">
+        {SERVICE_STATES.map((s) => (
+          <li>
+            <a
+              href={`/service-areas/${s.name.toLowerCase()}/`}
+              class:list={[
+                'font-heading text-h4 font-semibold uppercase tracking-heading underline',
+                s.abbr === highlight ? 'text-ink' : 'text-steel hover:text-ink',
+              ]}
+              aria-current={s.abbr === highlight ? 'true' : undefined}
+            >
+              {s.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</div>

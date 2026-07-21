@@ -1,0 +1,65 @@
+---
+// Collection-driven inventory (SPEC §4). No inventory is confirmed yet —
+// the collection ships with a draft template entry only, so the hub renders
+// an honest empty state until real listings are added.
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+
+const listings = (await getCollection('equipment-for-sale', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Equipment for Sale', href: '/equipment-for-sale/' },
+];
+---
+
+<BaseLayout
+  title="Equipment for Sale | Crushers & Screens | HardRok"
+  description="Used crushing and screening equipment from HardRok Equipment. Current inventory changes fast — call (866) 427-3765 for what's available today."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Equipment for Sale</h1>
+    <p class="prose-measure mt-4 text-steel">
+      Used equipment moves fast and the best deals never make it to a listing.
+      <TodoBadge label="TODO: current inventory from client" />
+    </p>
+
+    {
+      listings.length > 0 ? (
+        <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {listings.map((item) => (
+            <a href={`/equipment-for-sale/${item.slug}/`} class="card block p-6 no-underline">
+              <p class="text-meta font-semibold uppercase tracking-heading text-steel">
+                {item.data.category}
+              </p>
+              <h2 class="mt-1 text-h3 normal-case text-ink">{item.data.title}</h2>
+              <p class="mt-2 text-meta text-steel">{item.data.price ?? 'Call for price'}</p>
+              {item.data.status === 'available' && (
+                <p class="mt-3 inline-block rounded bg-rust px-2 py-0.5 text-meta font-semibold text-white">
+                  In Stock — Available Now
+                </p>
+              )}
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="card mt-10 max-w-xl p-8">
+          <h2 class="text-h3">Inventory is being updated</h2>
+          <p class="mt-3 text-steel">
+            Call <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> for
+            today's list of available crushers, screens, and support equipment — or tell us what
+            you're hunting for and we'll keep an eye out.
+          </p>
+          <div class="mt-5">
+            <CTAButton href="/quote/">Tell us what you need</CTAButton>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

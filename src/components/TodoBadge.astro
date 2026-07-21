@@ -1,0 +1,10 @@
+---
+// Visible placeholder for unconfirmed facts (AGENT-INSTRUCTIONS §3):
+// never invent a value — flag it in the UI so the client knows what to supply.
+interface Props {
+  label?: string;
+}
+const { label = 'TODO: confirm' } = Astro.props;
+---
+
+<span class="todo-badge">[{label}]</span>

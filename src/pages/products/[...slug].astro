@@ -1,0 +1,227 @@
+---
+// Product hub (SPEC §5.2) + product detail (SPEC §5.3) templates.
+// Adding a markdown file to src/content/products/ produces a complete page
+// with zero code changes.
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ProductCard from '@components/ProductCard.astro';
+import LeadForm from '@components/LeadForm.astro';
+import FAQAccordion from '@components/FAQAccordion.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { productSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const products = await getCollection('products', ({ data }) => !data.draft);
+  return products.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'products'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const all = await getCollection('products', ({ data: d }) => !d.draft);
+const children = all
+  .filter((p) => p.slug.startsWith(`${entry.slug}/`) && p.slug !== entry.slug)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const brandEntries = (
+  await Promise.all(data.compatibleBrands.map((slug) => getEntry('brands', slug)))
+).filter((b) => b !== undefined);
+
+const relatedEntries = (
+  await Promise.all(
+    data.relatedParts.map(async (slug) => {
+      const found = all.find((p) => p.slug === slug);
+      return found;
+    }),
+  )
+).filter((p) => p !== undefined);
+
+// Breadcrumbs: /products/ -> parent hub (if nested) -> this page
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products/' },
+];
+const parentSlug = entry.slug.includes('/') ? entry.slug.split('/')[0] : null;
+if (parentSlug) {
+  const parent = all.find((p) => p.slug === parentSlug);
+  if (parent) crumbs.push({ label: parent.data.title, href: `/products/${parent.slug}/` });
+}
+crumbs.push({ label: data.title, href: `/products/${entry.slug}/` });
+
+const path = `/products/${entry.slug}/`;
+const schemas =
+  data.kind === 'detail'
+    ? [productSchema({ name: data.title, description: data.metaDescription, url: path })]
+    : [];
+---
+
+<BaseLayout
+  title={data.metaTitle}
+  description={data.metaDescription}
+  breadcrumbs={crumbs}
+  schemas={schemas}
+>
+  <article>
+    <header class:list={['py-10', data.flagship ? 'bg-ink text-white' : 'bg-white']}>
+      <div class="container-content">
+        {
+          data.flagship && (
+            <p class="mb-2 text-meta font-semibold uppercase tracking-heading text-safety">
+              HardRok's own wear line
+            </p>
+          )
+        }
+        <h1 class:list={[data.flagship && 'text-white']}>{data.title}</h1>
+      </div>
+    </header>
+
+    <div class="container-content section-pad">
+      <div class="prose-measure space-y-4 [&_p]:text-body [&_p]:leading-relaxed">
+        <Content />
+      </div>
+
+      {
+        children.length > 0 && (
+          <section class="mt-12">
+            <h2 class="mb-6">Browse {data.title}</h2>
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {children.map((child) => (
+                <ProductCard
+                  title={child.data.title}
+                  href={`/products/${child.slug}/`}
+                  description={child.data.metaDescription}
+                  flagship={child.data.flagship}
+                />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      {
+        data.kind === 'detail' && data.compatibleMachines.length > 0 && (
+          <section class="mt-12">
+            <h2 class="mb-4">Compatible Machines</h2>
+            <p class="mb-4 text-meta text-steel">
+              Model rows below are pending client confirmation
+              <TodoBadge label="TODO: confirm model lists" /> — call to confirm fit for your
+              machine.
+            </p>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse text-left">
+                <thead>
+                  <tr class="border-b-2 border-ink">
+                    <th scope="col" class="py-2 pr-6 font-semibold">Brand</th>
+                    <th scope="col" class="py-2 pr-6 font-semibold">Models</th>
+                    <th scope="col" class="py-2 font-semibold">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.compatibleMachines.map((row) => (
+                    <tr class="border-b border-card">
+                      <td class="py-2 pr-6">{row.brand}</td>
+                      <td class="py-2 pr-6">{row.models}</td>
+                      <td class="py-2">
+                        {row.todo ? <TodoBadge label="TODO: confirm" /> : 'Confirmed'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )
+      }
+
+      {
+        data.kind === 'detail' && (
+          <section class="prose-measure mt-12">
+            <h2 class="mb-4">OEM vs Premium Aftermarket — The Honest Version</h2>
+            <p class="text-steel">
+              OEM parts are made to print by the machine's manufacturer, and they carry the OEM's
+              price. Premium aftermarket parts are engineered replacements made to fit the same
+              machines — what determines their performance is metallurgy, pattern accuracy, and
+              application match, not the logo. Where an OEM part is genuinely the right call, we'll
+              tell you. Where a premium aftermarket part delivers the same service life at a better
+              cost-per-ton, we'll tell you that too — it's most of what we sell, and it's why
+              customers stay.
+            </p>
+          </section>
+        )
+      }
+
+      {
+        brandEntries.length > 0 && (
+          <section class="mt-12">
+            <h2 class="mb-4">Replacement parts to fit these brands</h2>
+            <ul class="flex flex-wrap gap-3">
+              {brandEntries.map((brand) => (
+                <li>
+                  <a
+                    href={`/brands/${brand!.slug}/`}
+                    class="inline-block rounded border border-steel/40 bg-white px-4 py-2 text-nav font-medium text-ink no-underline hover:border-ink"
+                  >
+                    {brand!.data.brandName}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+
+      <section class="mt-12 grid gap-10 lg:grid-cols-2">
+        <LeadForm
+          source="product_form"
+          sourcePage={path}
+          compact
+          prefillCategory={data.prefillCategory}
+        />
+        <div class="space-y-4">
+          <h2 class="text-h3">Prefer to talk it through?</h2>
+          <p class="text-steel">
+            Call <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> — {SITE.hours}.
+            A photo of the worn part plus your machine model gets you the fastest exact quote.
+          </p>
+          <CTAButton href="/quote/" variant="secondary">Full quote form</CTAButton>
+        </div>
+      </section>
+
+      {
+        relatedEntries.length > 0 && (
+          <section class="mt-12">
+            <h2 class="mb-6">Related Parts</h2>
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {relatedEntries.map((rel) => (
+                <ProductCard
+                  title={rel!.data.title}
+                  href={`/products/${rel!.slug}/`}
+                  description={rel!.data.metaDescription}
+                />
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      {
+        data.faqs.length > 0 && (
+          <div class="mt-12">
+            <FAQAccordion items={data.faqs} />
+          </div>
+        )
+      }
+
+      <div class="mt-12">
+        <TrademarkDisclaimer />
+      </div>
+    </div>
+  </article>
+</BaseLayout>

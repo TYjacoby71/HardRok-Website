@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-surface font-body text-ink;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply text-body;
+  }
+
+  h1,
+  h2 {
+    @apply font-heading font-bold uppercase tracking-heading;
+  }
+
+  h1 {
+    @apply text-h1;
+  }
+
+  h2 {
+    @apply text-h2;
+  }
+
+  h3 {
+    @apply font-heading text-h3 font-semibold normal-case;
+  }
+
+  h4 {
+    @apply font-body text-h4 font-semibold;
+  }
+
+  /* WCAG 2.1 AA: visible focus on every interactive element */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible {
+    outline: 3px solid #f2a900;
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background-color: #f2a900;
+    color: #1a1d21;
+  }
+}
+
+@layer components {
+  .prose-measure {
+    max-width: 70ch;
+  }
+
+  .section-pad {
+    @apply py-section lg:py-section-lg;
+  }
+
+  .container-content {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6;
+  }
+
+  .card {
+    @apply rounded-card border border-card bg-white transition-shadow duration-150 hover:shadow-lg;
+  }
+
+  /* Visible placeholder badge for unconfirmed facts (AGENT-INSTRUCTIONS §3) */
+  .todo-badge {
+    @apply inline-block rounded bg-rust px-1.5 py-0.5 text-meta font-semibold text-white;
+  }
+}
+
+/* Header shrink-on-scroll (progressive enhancement; static height without JS) */
+.site-header {
+  transition: padding 0.15s ease;
+}
+.site-header.is-shrunk {
+  @apply py-1;
+}

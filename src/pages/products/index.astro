@@ -1,0 +1,49 @@
+---
+// Products hub. TODO: client to supply final intro copy for this page
+// (per 2026-07 direction: "I'll supply copy" for hub pages without briefs).
+import { getCollection } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import ProductCard from '@components/ProductCard.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+
+const topLevel = (await getCollection('products', ({ data }) => !data.draft))
+  .filter((p) => !p.slug.includes('/'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products/' },
+];
+---
+
+<BaseLayout
+  title="Products | Crusher, Conveyor & Screening | HardRok"
+  description="Browse aftermarket crusher wear parts, conveyor components, screen media, rotor components & Battleborn™ wear products from HardRok Equipment."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Parts &amp; Products</h1>
+    <p class="prose-measure mt-4 text-steel">
+      Aftermarket wear parts and components for crushing, conveying, and screening — stocked,
+      sourced, and shipped fast. <TodoBadge label="TODO: final intro copy from client" />
+    </p>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        topLevel.map((p) => (
+          <ProductCard
+            title={p.data.title}
+            href={`/products/${p.slug}/`}
+            description={p.data.metaDescription}
+            flagship={p.data.flagship}
+          />
+        ))
+      }
+    </div>
+
+    <div class="mt-12 max-w-xl">
+      <LeadForm source="product_form" sourcePage="/products/" compact />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,70 @@
+---
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '../styles/global.css';
+import Header from '@components/Header.astro';
+import FooterMega from '@components/FooterMega.astro';
+import StickyMobileCTA from '@components/StickyMobileCTA.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { organizationSchema, localBusinessSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+interface Props {
+  title: string; // unique, <= 60 chars, "{Keyword} | HardRok Equipment"
+  description: string; // unique, <= 155 chars
+  breadcrumbs?: { label: string; href: string }[];
+  noindex?: boolean;
+  schemas?: Record<string, unknown>[]; // page-specific JSON-LD
+}
+const { title, description, breadcrumbs, noindex = false, schemas = [] } = Astro.props;
+
+const path = Astro.url.pathname;
+const canonical = `${SITE.origin}${path}`;
+const jsonLd = [organizationSchema(), localBusinessSchema(), ...schemas];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {/* TODO: replace with branded 1200x630 raster once photography arrives (TODO.md Part 2F) */}
+    <meta property="og:image" content={`${SITE.origin}/images/og-default.svg`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${SITE.origin}/images/og-default.svg`} />
+
+    {jsonLd.map((schema) => <script type="application/ld+json" set:html={JSON.stringify(schema)} />)}
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-safety focus:px-4 focus:py-2 focus:font-semibold focus:text-ink"
+    >
+      Skip to content
+    </a>
+    <Header />
+    {breadcrumbs && breadcrumbs.length > 1 && <Breadcrumbs items={breadcrumbs} />}
+    <main id="main">
+      <slot />
+    </main>
+    <FooterMega />
+    <StickyMobileCTA />
+  </body>
+</html>

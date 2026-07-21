@@ -1,0 +1,41 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('resources', ({ data }) => !data.draft);
+  return articles.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'resources'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/resources/' },
+  { label: data.title, href: `/resources/${entry.slug}/` },
+];
+---
+
+<BaseLayout title={data.metaTitle} description={data.metaDescription} breadcrumbs={crumbs}>
+  <article class="container-content section-pad">
+    <h1>{data.title}</h1>
+    <div class="prose-measure mt-6 space-y-4 [&_p]:leading-relaxed">
+      <Content />
+    </div>
+
+    <section class="mt-12 max-w-xl">
+      <LeadForm
+        source="product_form"
+        sourcePage={`/resources/${entry.slug}/`}
+        compact
+        heading="Have this exact problem? Ask us."
+      />
+    </section>
+  </article>
+</BaseLayout>

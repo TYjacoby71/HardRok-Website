@@ -1,0 +1,24 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+---
+
+<BaseLayout
+  title="Page Not Found | HardRok Equipment"
+  description="That page has moved or never existed. Find crusher parts, screen media, and conveyor components from the HardRok homepage — or call (866) 427-3765."
+  noindex
+>
+  <div class="container-content section-pad text-center">
+    <h1>That page isn't here.</h1>
+    <p class="mx-auto mt-4 max-w-xl text-steel">
+      The part you need probably is, though. Head to the homepage, browse the
+      <a href="/sitemap/" class="underline">sitemap</a>, or call
+      <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a>.
+    </p>
+    <div class="mt-8 flex justify-center gap-4">
+      <CTAButton href="/">Home</CTAButton>
+      <CTAButton href="/quote/" variant="secondary">Request a Quote</CTAButton>
+    </div>
+  </div>
+</BaseLayout>

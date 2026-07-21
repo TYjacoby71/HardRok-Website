@@ -1,0 +1,63 @@
+---
+import { NAV_LINKS, SITE } from '@lib/site';
+import MobileNav from './MobileNav.astro';
+
+const currentPath = Astro.url.pathname;
+const isActive = (href: string) => currentPath === href || (href !== '/' && currentPath.startsWith(href));
+---
+
+<header class="site-header sticky top-0 z-40 border-b border-card bg-white py-2 shadow-sm">
+  <div class="container-content flex items-center justify-between gap-4">
+    <a href="/" class="flex items-baseline gap-1.5 no-underline" aria-label="HardRok Equipment — home">
+      <span class="font-heading text-3xl font-bold uppercase tracking-heading text-ink">HardRok</span>
+      <span class="font-heading text-xl font-semibold uppercase tracking-heading text-steel">Equipment</span>
+    </a>
+
+    <nav aria-label="Main" class="hidden xl:block">
+      <ul class="flex items-center gap-5">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                class:list={[
+                  'text-nav font-medium no-underline transition-colors hover:text-ink',
+                  isActive(link.href)
+                    ? 'border-b-2 border-safety text-ink'
+                    : 'text-steel',
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="hidden items-center gap-4 lg:flex">
+      <a href={SITE.phoneHref} class="text-nav font-semibold text-ink no-underline hover:underline">
+        {SITE.phone}
+      </a>
+      <a
+        href="/quote/"
+        class="rounded border-2 border-safety bg-safety px-4 py-2 text-nav font-semibold text-ink no-underline transition-colors hover:border-safety-hover hover:bg-safety-hover"
+      >
+        Request a Quote
+      </a>
+    </div>
+
+    <MobileNav />
+  </div>
+</header>
+
+<script>
+  // Progressive enhancement only: shrink header on scroll.
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-shrunk', window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import { SITE } from '@lib/site';
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Contact', href: '/contact/' },
+];
+---
+
+<BaseLayout
+  title="Contact Us | HardRok Equipment"
+  description="Reach HardRok Equipment for crusher parts, screen media & conveyor components. Call (866) 427-3765, text a photo of your part, or request a quote online."
+  breadcrumbs={crumbs}
+>
+  <div class="container-content section-pad">
+    <h1>Contact HardRok Equipment</h1>
+
+    <div class="mt-8 grid items-start gap-10 lg:grid-cols-2">
+      <div class="space-y-6">
+        <section class="card p-6">
+          <h2 class="text-h3">Call</h2>
+          <p class="mt-2">
+            <a href={SITE.phoneHref} class="text-h3 font-heading font-bold text-ink underline">
+              {SITE.phone}
+            </a>
+          </p>
+          <p class="mt-1 text-steel">{SITE.hours}</p>
+        </section>
+
+        <section class="card p-6" id="text-to-quote">
+          <h2 class="text-h3">Text a photo of your part</h2>
+          <p class="mt-2 text-steel">
+            {
+              SITE.textQuoteNumber ? (
+                <>
+                  Text{' '}
+                  <a
+                    href={`sms:${SITE.textQuoteNumber.replace(/[^+\d]/g, '')}`}
+                    class="font-semibold underline"
+                  >
+                    {SITE.textQuoteNumber}
+                  </a>{' '}
+                  with a photo of the worn part and your machine model.
+                </>
+              ) : (
+                <>
+                  Text-to-quote is being set up <TodoBadge label="TODO: Twilio number" /> — attach
+                  a photo via the quote form meanwhile.
+                </>
+              )
+            }
+          </p>
+        </section>
+
+        <section class="card p-6">
+          <h2 class="text-h3">Visit / mail</h2>
+          <p class="mt-2 text-steel">
+            {SITE.addressLocality}, {SITE.addressRegion}
+            <TodoBadge label="TODO: confirm street address" />
+          </p>
+        </section>
+      </div>
+
+      <LeadForm source="quote_form" sourcePage="/contact/" />
+    </div>
+  </div>
+</BaseLayout>

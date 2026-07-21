@@ -1,0 +1,28 @@
+---
+// Primary: safety-yellow background, ink text (never yellow text — SPEC §2.1).
+// Secondary: ink outline. Inverse variants for dark sections.
+interface Props {
+  href: string;
+  variant?: 'primary' | 'secondary' | 'secondary-inverse';
+  class?: string;
+}
+const { href, variant = 'primary', class: className = '' } = Astro.props;
+
+const styles = {
+  primary:
+    'bg-safety text-ink hover:bg-safety-hover border-2 border-safety hover:border-safety-hover',
+  secondary: 'border-2 border-ink text-ink hover:bg-ink hover:text-white',
+  'secondary-inverse': 'border-2 border-white text-white hover:bg-white hover:text-ink',
+}[variant];
+---
+
+<a
+  href={href}
+  class:list={[
+    'inline-block rounded px-6 py-3 text-center font-body text-body font-semibold no-underline transition-colors',
+    styles,
+    className,
+  ]}
+>
+  <slot />
+</a>

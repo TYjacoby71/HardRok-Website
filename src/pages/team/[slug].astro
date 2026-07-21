@@ -1,0 +1,140 @@
+---
+// Team page template (SPEC §5.6): photo, territory, direct phone/SMS, email,
+// booking calendar iframe if set (else call/text CTA), bio, "parts I quote
+// most" links, Person schema.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { personSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const team = await getCollection('team');
+  return team.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'team'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const path = `/team/${entry.slug}/`;
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Team', href: '/team/' },
+  { label: data.name, href: path },
+];
+const schema = personSchema({
+  name: data.name,
+  jobTitle: data.jobTitle,
+  url: path,
+  telephone: data.phoneConfirmed ? data.phone : undefined,
+  email: data.emailConfirmed ? data.email : undefined,
+});
+---
+
+<BaseLayout
+  title={data.metaTitle}
+  description={data.metaDescription}
+  breadcrumbs={crumbs}
+  schemas={[schema]}
+>
+  <article class="container-content section-pad">
+    <div class="grid items-start gap-10 lg:grid-cols-3">
+      <div class="lg:col-span-2">
+        <h1>{data.name} — {data.jobTitle}</h1>
+        <p class="mt-2 text-body font-medium text-steel">Territory: {data.territory}</p>
+
+        <div class="prose-measure mt-6 space-y-4 [&_p]:leading-relaxed">
+          <Content />
+        </div>
+
+        {
+          data.quotesMost.length > 0 && (
+            <section class="mt-10">
+              <h2 class="mb-4 text-h3">Parts I quote most</h2>
+              <ul class="flex flex-wrap gap-3">
+                {data.quotesMost.map((q) => (
+                  <li>
+                    <a
+                      href={q.href}
+                      class="inline-block rounded border border-steel/40 bg-white px-4 py-2 text-nav font-medium text-ink no-underline hover:border-ink"
+                    >
+                      {q.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+      </div>
+
+      <aside class="card space-y-4 p-6">
+        {
+          data.photoTodo && (
+            <div
+              class="flex h-44 w-44 items-center justify-center rounded-full bg-steel/20"
+              role="img"
+              aria-label={`Photo of ${data.name} coming soon`}
+            >
+              <TodoBadge label="TODO: headshot" />
+            </div>
+          )
+        }
+        <div class="space-y-2 text-body">
+          <p>
+            Call / text:{' '}
+            {
+              data.phone && data.phoneConfirmed ? (
+                <a href={`tel:${data.phone.replace(/[^+\d]/g, '')}`} class="font-semibold underline">
+                  {data.phone}
+                </a>
+              ) : (
+                <>
+                  <a href={SITE.phoneHref} class="font-semibold underline">
+                    {SITE.phone}
+                  </a>{' '}
+                  <TodoBadge label="TODO: direct phone" />
+                </>
+              )
+            }
+          </p>
+          <p>
+            Email:{' '}
+            {
+              data.email && data.emailConfirmed ? (
+                <a href={`mailto:${data.email}`} class="font-semibold underline">
+                  {data.email}
+                </a>
+              ) : (
+                <TodoBadge label="TODO: email" />
+              )
+            }
+          </p>
+        </div>
+        {
+          data.calendarUrl ? (
+            <iframe
+              src={data.calendarUrl}
+              title={`Book a parts consultation with ${data.name}`}
+              class="h-96 w-full rounded border border-card"
+              loading="lazy"
+            />
+          ) : (
+            <div class="space-y-3">
+              <p class="text-meta text-steel">
+                Booking calendar coming soon <TodoBadge label="TODO: calendar URL" /> — call or
+                text meanwhile.
+              </p>
+              <CTAButton href={SITE.phoneHref} class="w-full">Call {SITE.phone}</CTAButton>
+            </div>
+          )
+        }
+      </aside>
+    </div>
+  </article>
+</BaseLayout>

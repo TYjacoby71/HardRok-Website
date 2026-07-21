@@ -1,0 +1,59 @@
+---
+// Paid-traffic landing page (SPEC §5.8) — noindex.
+import LandingLayout from '@layouts/LandingLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import { SITE } from '@lib/site';
+---
+
+<LandingLayout
+  title="Crusher Down? Fast Wear Parts | HardRok Equipment"
+  description="Send a photo of your worn part. A HardRok specialist calls you within 2 business hours with a quote and lead time."
+  noindex
+>
+  <section class="bg-ink text-white">
+    <div class="container-content grid items-start gap-10 py-12 lg:grid-cols-2">
+      <div>
+        <h1 class="text-white">Crusher Down? Get the Wear Part You Need — Fast.</h1>
+        <p class="mt-5 text-body text-white/85">
+          Send a photo of your worn part. A HardRok specialist calls you within 2 business hours
+          with a quote and lead time.
+        </p>
+        <ul class="mt-6 space-y-2 text-white/85">
+          <li>✓ 40+ years supplying crushing operations</li>
+          <li>✓ Stocked warehouse — common wear parts ship fast</li>
+          <li>✓ Parts to fit all major crusher brands</li>
+        </ul>
+        <p class="mt-6 text-body">
+          {
+            SITE.textQuoteNumber ? (
+              <>
+                Prefer to text? Send a photo to{' '}
+                <a
+                  href={`sms:${SITE.textQuoteNumber.replace(/[^+\d]/g, '')}`}
+                  class="font-semibold text-safety underline"
+                >
+                  {SITE.textQuoteNumber}
+                </a>
+              </>
+            ) : (
+              <>
+                Or call now:{' '}
+                <a href={SITE.phoneHref} class="font-semibold text-safety underline">
+                  {SITE.phone}
+                </a>{' '}
+                <TodoBadge label="TODO: text-to-quote number" />
+              </>
+            )
+          }
+        </p>
+      </div>
+
+      <LeadForm
+        source="landing_page"
+        sourcePage="/lp/downtime-emergency/"
+        heading="Get an emergency parts quote"
+      />
+    </div>
+  </section>
+</LandingLayout>

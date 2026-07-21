@@ -1,0 +1,162 @@
+---
+// Home — section order per SPEC §5.1.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import StatBar from '@components/StatBar.astro';
+import ProductCard from '@components/ProductCard.astro';
+import BrandLogoRow from '@components/BrandLogoRow.astro';
+import CTAButton from '@components/CTAButton.astro';
+import TerritoryMap from '@components/TerritoryMap.astro';
+import TestimonialBlock from '@components/TestimonialBlock.astro';
+import FAQAccordion from '@components/FAQAccordion.astro';
+import TodoBadge from '@components/TodoBadge.astro';
+import { SITE } from '@lib/site';
+
+const faqs = [
+  {
+    q: 'What do you supply?',
+    a: 'Aftermarket crusher wear parts (jaw, cone, and impact), conveyor components, screen media, rotor components, and crusher hydraulics — plus our own Battleborn™ wear line. If it crushes, conveys, or screens, we support it.',
+  },
+  {
+    q: 'Which crusher brands do your parts fit?',
+    a: 'We supply replacement parts to fit Symons, Nordberg/Metso HP and MP, Sandvik Hydrocone, Svedala/Superior, Omnicone, Telsmith, Cedarapids, and Allis-Chalmers machines, and we are an authorized CMS Cepcor dealer.',
+  },
+  {
+    q: 'How do I get a quote fast?',
+    a: 'Call (866) 427-3765, submit the quote form with your part and machine model, or text a photo of the worn part. A photo plus the machine model is the fastest path to an exact quote.',
+  },
+  {
+    q: 'Where do you deliver?',
+    a: 'We serve producers across Nevada, California, Arizona, Utah, and Idaho, with fast shipping throughout the western U.S. Outside those states? Call — freight goes everywhere.',
+  },
+];
+
+const categories = [
+  {
+    title: 'Crusher Wear Parts',
+    href: '/products/crusher-parts/',
+    description: 'Jaw plates, mantles, bowl liners, blow bars & manganese to fit all major brands.',
+  },
+  {
+    title: 'Conveyor Components',
+    href: '/products/conveyor-components/',
+    description: 'Idlers, head & tail pulleys, belting, belt cleaners & self-adjusting motor bases.',
+  },
+  {
+    title: 'Screen Media',
+    href: '/products/screening-media/',
+    description: 'Woven wire screen cloth, urethane panels & screen components — custom-made in days.',
+  },
+];
+---
+
+<BaseLayout
+  title="Crusher Parts, Conveyor & Screening Media | HardRok Equipment"
+  description="Aftermarket crusher wear parts, conveyor components & screen media from a fully stocked warehouse. 40+ years of expertise. Request a quote or call today."
+>
+  <Hero
+    title="Crusher Parts, Conveyor Components & Screening Media — Shipped Fast."
+    subhead="For over 40 years, HardRok Equipment has kept crushing, conveying, and screening operations running. We stock premium aftermarket wear parts, manganese, screen media, and conveyor components — and we ship fast, because every hour your plant is down costs you money. Tell us the part or the problem; we'll get you a quote."
+  >
+    <Fragment slot="cta">
+      <CTAButton href="/quote/">Request a Quote</CTAButton>
+      <CTAButton href={SITE.phoneHref} variant="secondary-inverse">Call {SITE.phone}</CTAButton>
+    </Fragment>
+  </Hero>
+
+  <StatBar />
+
+  <section class="section-pad">
+    <div class="container-content">
+      <h2 class="mb-8">What We Supply</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        {categories.map((c) => <ProductCard {...c} />)}
+      </div>
+    </div>
+  </section>
+
+  <BrandLogoRow />
+
+  <section class="bg-ink text-white">
+    <div class="container-content section-pad">
+      <p class="mb-2 text-meta font-semibold uppercase tracking-heading text-safety">
+        HardRok's own wear line
+      </p>
+      <h2 class="text-white">Battleborn™ Wear Products</h2>
+      <p class="prose-measure mt-4 text-white/85">
+        Battleborn™ is HardRok's own line of premium wear products, built for operators who are
+        tired of replacing the same part twice a season.
+        <TodoBadge label="TODO: confirm Battleborn scope & details" />
+      </p>
+      <div class="mt-6">
+        <CTAButton href="/products/battleborn-wear-products/">Explore Battleborn™</CTAButton>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-content grid gap-10 lg:grid-cols-3">
+      <div>
+        <h2 class="mb-3 text-h3">Uptime is the product</h2>
+        <p class="text-steel">
+          Downtime is measured in dollars per hour, not days. We answer the phone, quote fast, and
+          ship from stock wherever we can — because the part you need tomorrow is worth more than
+          the part you need next month.
+        </p>
+      </div>
+      <div>
+        <h2 class="mb-3 text-h3">A warehouse, not a webstore</h2>
+        <p class="text-steel">
+          We stock the wear parts western producers actually burn through — manganese, liners,
+          idlers, screen media — and source the rest through relationships built over four decades.
+        </p>
+      </div>
+      <div>
+        <h2 class="mb-3 text-h3">Expertise you can borrow</h2>
+        <p class="text-steel">
+          Grade selection, liner profiles, media choice, alloy matching: our team has stood in the
+          pit and made these calls. Send a photo of the worn part and we'll tell you what it means.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad bg-white">
+    <div class="container-content grid items-center gap-10 lg:grid-cols-2">
+      <div>
+        <h2 class="mb-4">Serving the Western U.S.</h2>
+        <p class="prose-measure text-steel">
+          HardRok reps cover Nevada, California, Arizona, Utah, and Idaho directly — with fast
+          freight beyond. Find your territory and the rep who answers for it.
+        </p>
+        <div class="mt-6">
+          <CTAButton href="/service-areas/" variant="secondary">Find your territory</CTAButton>
+        </div>
+      </div>
+      <TerritoryMap />
+    </div>
+  </section>
+
+  <TestimonialBlock />
+
+  <section class="bg-safety">
+    <div class="container-content flex flex-col items-center gap-4 py-10 text-center">
+      <h2 class="text-ink">Crusher down? Send us a photo of the part.</h2>
+      <p class="max-w-2xl text-ink">
+        {
+          SITE.textQuoteNumber
+            ? `Text a photo of your worn part to ${SITE.textQuoteNumber} or call ${SITE.phone}.`
+            : `Call ${SITE.phone} — or use the quote form and attach a photo of the worn part.`
+        }
+        {!SITE.textQuoteNumber && <TodoBadge label="TODO: text-to-quote number" />}
+      </p>
+      <CTAButton href="/quote/" variant="secondary">Request a Quote</CTAButton>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-content">
+      <FAQAccordion items={faqs} />
+    </div>
+  </section>
+</BaseLayout>
