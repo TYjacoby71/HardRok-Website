@@ -63,8 +63,18 @@ export default async function handler(req: Request, _context: Context): Promise<
   }
 
   // 1. Persist to Supabase FIRST. If this fails, surface an error so the
-  //    visitor calls instead — never silently drop a lead.
-  const db = supabase();
+  //    visitor calls instead — never silently drop a lead, and never show a
+  //    raw crash page (config errors land here too).
+  let db;
+  try {
+    db = supabase();
+  } catch (err) {
+    console.error('supabase client init failed (check SUPABASE_URL / secret key):', err);
+    return new Response(
+      'We could not save your request. Please call (866) 427-3765 and we will take it by phone.',
+      { status: 500 },
+    );
+  }
   const { data: lead, error } = await db
     .from('leads')
     .insert({
