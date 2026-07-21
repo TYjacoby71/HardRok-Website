@@ -1,11 +1,12 @@
 // Form handler for every LeadForm on the site. Pipeline (SPEC.md §8):
 // parse -> Supabase insert (NEVER lose a lead) -> assign-lead (§7) ->
-// CRM adapter (§8) -> rep SMS alert (§9.2).
+// deliver (CRM adapter when CRM_ENABLED=true, else email to LEAD_EMAIL_TO) ->
+// rep SMS alert (§9.2, fires in both modes).
 // Works with JS disabled: plain form POST in, 303 redirect to /thanks/ out.
 import type { Context } from '@netlify/functions';
 import { supabase, uploadAttachment } from './lib/supabase';
 import { assignLead } from './lib/assign-lead';
-import { syncLeadToCrm } from './lib/sync-crm';
+import { deliverLead } from './lib/deliver-lead';
 import { alertRep } from './lib/notify';
 import type { LeadRow, LeadSource } from './lib/types';
 
@@ -102,9 +103,9 @@ export default async function handler(req: Request, _context: Context): Promise<
 
   try {
     const { data: fresh } = await db.from('leads').select('*').eq('id', lead.id).single();
-    await syncLeadToCrm((fresh ?? lead) as LeadRow, assignedRep);
+    await deliverLead((fresh ?? lead) as LeadRow, assignedRep);
   } catch (err) {
-    console.error('crm sync step failed (lead persisted):', err);
+    console.error('lead delivery step failed (lead persisted):', err);
   }
 
   try {

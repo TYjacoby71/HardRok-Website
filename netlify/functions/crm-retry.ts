@@ -1,8 +1,9 @@
-// Scheduled retry for failed CRM syncs — every 15 minutes (SPEC.md §8).
-// Leads are always safe in Supabase; this drains crm_status='failed'.
+// Scheduled retry for failed lead deliveries — every 15 minutes (SPEC.md §8).
+// Leads are always safe in Supabase; this drains crm_status='failed' through
+// whichever delivery mode is active (CRM adapter or email).
 import type { Config, Context } from '@netlify/functions';
 import { supabase } from './lib/supabase';
-import { syncLeadToCrm } from './lib/sync-crm';
+import { deliverLead } from './lib/deliver-lead';
 import type { LeadRow, RepRow } from './lib/types';
 
 export default async function handler(_req: Request, _context: Context): Promise<Response> {
@@ -26,7 +27,7 @@ export default async function handler(_req: Request, _context: Context): Promise
       const { data } = await db.from('reps').select('*').eq('id', lead.assigned_rep_id).maybeSingle();
       rep = (data as RepRow | null) ?? null;
     }
-    await syncLeadToCrm(lead, rep);
+    await deliverLead(lead, rep);
     retried += 1;
   }
 

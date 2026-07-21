@@ -7,9 +7,10 @@ import type { CrmAdapter } from './types';
 async function post(payload: Record<string, unknown>): Promise<Response> {
   const url = process.env.CRM_WEBHOOK_URL;
   if (!url) {
-    // No webhook configured yet: signal "skip" (lead stays crm_status=pending)
-    // rather than failing every lead while the client onboards their CRM.
-    throw new SkipCrmSync('CRM_WEBHOOK_URL not set');
+    // CRM mode is an explicit opt-in (CRM_ENABLED=true); a missing URL there
+    // is a misconfiguration -> fail, retry, and alert the admin. Pre-CRM,
+    // leave CRM_ENABLED=false and leads are emailed instead.
+    throw new Error('CRM_WEBHOOK_URL must be set when CRM_ENABLED=true and CRM_PROVIDER=webhook');
   }
   const res = await fetch(url, {
     method: 'POST',
@@ -19,8 +20,6 @@ async function post(payload: Record<string, unknown>): Promise<Response> {
   if (!res.ok) throw new Error(`CRM webhook responded ${res.status}`);
   return res;
 }
-
-export class SkipCrmSync extends Error {}
 
 export const webhookAdapter: CrmAdapter = {
   async createLead(lead: LeadRow) {

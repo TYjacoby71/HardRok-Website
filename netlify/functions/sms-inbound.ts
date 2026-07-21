@@ -6,7 +6,7 @@
 import type { Context } from '@netlify/functions';
 import { supabase, uploadAttachment } from './lib/supabase';
 import { assignLead } from './lib/assign-lead';
-import { syncLeadToCrm } from './lib/sync-crm';
+import { deliverLead } from './lib/deliver-lead';
 import { alertRep } from './lib/notify';
 import { stateFromPhone } from './lib/area-codes';
 import { fetchTwilioMedia, twimlMessage, validateTwilioSignature } from './lib/twilio';
@@ -91,9 +91,9 @@ export default async function handler(req: Request, _context: Context): Promise<
 
   try {
     const { data: fresh } = await db.from('leads').select('*').eq('id', lead.id).single();
-    await syncLeadToCrm((fresh ?? lead) as LeadRow, assignedRep);
+    await deliverLead((fresh ?? lead) as LeadRow, assignedRep);
   } catch (err) {
-    console.error('crm sync failed for SMS lead (persisted):', err);
+    console.error('delivery failed for SMS lead (persisted):', err);
   }
 
   return twimlMessage(AUTO_REPLY);

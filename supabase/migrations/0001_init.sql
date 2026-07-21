@@ -38,7 +38,7 @@ create table leads (
   attachment_url text,
   territory_id uuid references territories(id),
   assigned_rep_id uuid references reps(id),
-  crm_status text default 'pending',   -- pending | synced | failed
+  crm_status text default 'pending',   -- pending | synced | email_sent | failed
   crm_external_id text,
   raw jsonb
 );

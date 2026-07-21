@@ -5,7 +5,6 @@ import { hubspotAdapter } from './hubspot';
 import { zohoAdapter } from './zoho';
 import { pipedriveAdapter } from './pipedrive';
 
-export { SkipCrmSync } from './webhook';
 export type { CrmAdapter } from './types';
 
 const adapters: Record<string, CrmAdapter> = {

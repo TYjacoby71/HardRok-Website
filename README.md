@@ -21,6 +21,13 @@ deploys.
 
 - `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` — lead system of record
 - `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM_NUMBER` — SMS flows
+- `CRM_ENABLED` — master delivery switch. `false` (launch default) emails each
+  lead to `LEAD_EMAIL_TO` (`crm_status='email_sent'`), like the old GoDaddy
+  form; `true` runs the CRM adapter. Supabase insert and rep SMS alerts happen
+  in both modes.
+- `LEAD_EMAIL_TO`, `LEAD_EMAIL_FROM`, `EMAIL_PROVIDER`
+  (`resend` default | `sendgrid` | `smtp` stub), `RESEND_API_KEY` /
+  `SENDGRID_API_KEY` — email mode (`netlify/functions/lib/email/`)
 - `CRM_PROVIDER` (`webhook` default | `hubspot` | `zoho` | `pipedrive`),
   `CRM_WEBHOOK_URL` — CRM adapter layer (`netlify/functions/lib/crm/`)
 - `ADMIN_PHONE` — SMS alert target when a CRM sync fails
@@ -38,10 +45,15 @@ deploys.
 3. **Twilio**: point the number's "a message comes in" webhook at
    `/.netlify/functions/sms-inbound` (POST). Missed-call text-back is stubbed
    in `missed-call-textback.ts` until the 866 line fronts through Twilio.
-4. **CRM**: leave `CRM_PROVIDER=webhook` and set `CRM_WEBHOOK_URL` to the
-   CRM's inbound webhook (or Zapier/Make). Failed syncs retry every 15 min
-   (`crm-retry.ts`) and alert `ADMIN_PHONE`; leads always persist in Supabase
-   first.
+4. **Email mode (launch default)**: set `LEAD_EMAIL_TO` (receiving inbox) and
+   `LEAD_EMAIL_FROM` (verified sender on a domain HardRok controls), plus
+   `RESEND_API_KEY` (or switch `EMAIL_PROVIDER=sendgrid` with
+   `SENDGRID_API_KEY`). Leads land in the inbox exactly like the old site —
+   plus the Supabase record and rep SMS the old site never had.
+5. **CRM cutover (later, no code change)**: set `CRM_PROVIDER`/vendor env vars
+   and flip `CRM_ENABLED=true`. Failed deliveries in either mode retry every
+   15 min (`crm-retry.ts`) and alert `ADMIN_PHONE`; leads always persist in
+   Supabase first.
 
 ## Content editing — no code required
 

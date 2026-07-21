@@ -189,7 +189,23 @@ Seed: 2 placeholder reps, 5 territories matching the stub states.
 4. No match -> assign house queue (rep slug "house"), flag raw.review = true.
 Log every assignment decision into leads.raw.
 
-## 8. CRM ADAPTER LAYER (vendor unknown — do not hardcode any vendor)
+## 8. LEAD DELIVERY: EMAIL MODE + CRM ADAPTER LAYER (vendor unknown — do not hardcode any vendor)
+
+### 8.1 Master switch (env CRM_ENABLED)
+Supabase insert is unconditional in both modes — never gated by the flag.
+- CRM_ENABLED=false (launch default, pre-CRM): deliver each lead by EMAIL to
+  env LEAD_EMAIL_TO from env LEAD_EMAIL_FROM — the "form lands in an inbox"
+  behavior of the old GoDaddy site. Set crm_status = 'email_sent'.
+  Email provider selected by env EMAIL_PROVIDER: resend (default; least
+  friction from a Netlify Function) · sendgrid (documented alternative,
+  Twilio-owned) · smtp (stub).
+- CRM_ENABLED=true: run the CRM adapter below. Flipping the flag is the only
+  change needed when the CRM vendor is ready; past email-mode leads remain in
+  Supabase for backfill.
+The rep SMS alert (Section 9.2) is independent of this switch and fires in
+BOTH modes (documented default: on).
+
+### 8.2 CRM adapter layer
 functions/lib/crm/ exposing interface:
 - createLead(lead) -> { externalId }
 - assignOwner(externalId, repMap)
@@ -197,7 +213,7 @@ functions/lib/crm/ exposing interface:
 
 Adapters selected by env CRM_PROVIDER: hubspot.ts (stub) · zoho.ts (stub) · pipedrive.ts (stub) · webhook.ts (COMPLETE: POST normalized lead JSON to env CRM_WEBHOOK_URL). Default = webhook.
 
-Pipeline: form/SMS -> Supabase insert (never lose a lead) -> assign-lead -> CRM adapter -> on throw: crm_status = 'failed', retry via Netlify scheduled function (every 15 min), alert SMS to env ADMIN_PHONE.
+Pipeline: form/SMS -> Supabase insert (never lose a lead) -> assign-lead -> deliver (email mode or CRM adapter per Section 8.1) -> on throw: crm_status = 'failed', retry via Netlify scheduled function (every 15 min) through the active delivery mode, alert SMS to env ADMIN_PHONE.
 
 ## 9. TWILIO FLOWS (Netlify Functions)
 ### 9.1 Inbound SMS webhook

@@ -20,7 +20,8 @@ export interface LeadRow extends LeadInsert {
   created_at: string;
   territory_id: string | null;
   assigned_rep_id: string | null;
-  crm_status: 'pending' | 'synced' | 'failed';
+  // pending | synced (CRM mode) | email_sent (pre-CRM email mode) | failed
+  crm_status: 'pending' | 'synced' | 'email_sent' | 'failed';
   crm_external_id: string | null;
   raw: Record<string, unknown>;
 }
