@@ -99,3 +99,55 @@
   to = "/products/"
   status = 301
   force = true
+
+# ---------------------------------------------------------------------------
+# Additional legacy URLs discovered via search-index sweep of the old site
+# (2026-07) — not in SPEC §3.1 but live/indexed, so they need 301s too.
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from = "/about-us.html"
+  to = "/about/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/screening-components.html"
+  to = "/products/screening-media/screen-parts-and-components/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/optimumwire.html"
+  to = "/products/screening-media/woven-wire-screen-cloth/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/jaw-crusher-parts.html"
+  to = "/products/crusher-parts/jaw-crusher-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/cone-crusher-parts.html"
+  to = "/products/crusher-parts/cone-crusher-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/crusher-parts-for-sale-.html"
+  to = "/products/crusher-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/parts-and-equipment-for-sale.html"
+  to = "/equipment-for-sale/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/equipment-for-sale.html"
+  to = "/equipment-for-sale/"
+  status = 301
+  force = true

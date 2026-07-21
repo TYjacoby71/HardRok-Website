@@ -19,7 +19,9 @@ faqs:
 ---
 
 Battleborn™ is HardRok's own line of premium wear products, built for operators
-who are tired of replacing the same part twice a season.
+who are tired of replacing the same part twice a season. The line includes
+Battleborn™ jaw die sets for major jaw crushers — with more of the range
+detailed below as it's confirmed.
 
 <!-- TODO: confirm Battleborn scope, materials, warranty, and differentiation
      (TODO.md Part 2C). This is HardRok's flagship proprietary line — the page

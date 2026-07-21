@@ -39,3 +39,7 @@ bowl liners, and concave rings to fit Symons, Metso/Nordberg HP and MP, Sandvik
 Hydrocone, Omnicone, and more. We stock multiple manganese grades and can advise
 on standard vs coarse vs fine liner profiles for your application. Worn liners?
 Send your machine model and a photo — we quote cone parts daily.
+
+Beyond liners, we also supply the mechanical side of Symons-style cones —
+bowl assemblies, upper thrust bearings, eccentric sub-assemblies, and cooling
+fans — so a rebuild doesn't stall waiting on one component.

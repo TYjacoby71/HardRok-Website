@@ -7,6 +7,7 @@ export const SITE = {
   legalName: 'HardRok Equipment, Inc.',
   origin: 'https://www.hardrok.com',
   phone: '(866) 427-3765',
+  phoneVanity: '1-866-HARDROK', // confirmed on existing site
   phoneHref: 'tel:+18664273765',
   hours: 'Mon–Fri 7am–5pm PST',
   // TODO: confirm published Twilio text-to-quote number (TODO.md Part 2E).

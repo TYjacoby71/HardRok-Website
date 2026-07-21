@@ -1,9 +1,13 @@
 ---
-// SPEC §2.4 calls for real <img> logos with alt text. Logo files are pending
-// permission/fair-use review (TODO.md Part 2F), and placeholder images may not
-// contain text (SPEC §2.5 / rubric). Until approved logo assets arrive, brands
-// render as real-text tiles — swap in <img> tags when files land.
-// TODO: replace text tiles with approved logo images (grayscale-to-color on hover).
+// SPEC §2.4: real <img> logos with alt text, grayscale-to-color on hover.
+// Logo files are pending permission/fair-use review (TODO.md Part 2F).
+// Drop an approved file into src/assets/logos/ named by brand slug
+// (e.g. symons.svg, metso-nordberg-hp.png) and it renders automatically —
+// no code changes. Every logo is normalized into the same bounding box
+// (fixed tile height, object-contain, width cap) so mismatched source
+// dimensions can never render giant-next-to-tiny. Brands without a logo
+// file fall back to real-text tiles (placeholder images may not contain
+// text per SPEC §2.5).
 import { getCollection } from 'astro:content';
 
 interface Props {
@@ -14,6 +18,19 @@ const { heading = 'Replacement parts to fit:' } = Astro.props;
 const brands = (await getCollection('brands')).sort(
   (a, b) => a.data.order - b.data.order,
 );
+
+const logoModules = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/logos/*.{svg,png,jpg,jpeg,webp}',
+  { eager: true },
+);
+const logoBySlug = new Map<string, ImageMetadata>();
+for (const [path, mod] of Object.entries(logoModules)) {
+  const slug = path
+    .split('/')
+    .pop()!
+    .replace(/\.(svg|png|jpe?g|webp)$/i, '');
+  logoBySlug.set(slug, mod.default);
+}
 ---
 
 <section class="section-pad bg-white">
@@ -21,16 +38,32 @@ const brands = (await getCollection('brands')).sort(
     <h2 class="mb-8 text-center">{heading}</h2>
     <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
       {
-        brands.map((brand) => (
-          <li>
-            <a
-              href={`/brands/${brand.slug}/`}
-              class="font-heading text-h4 font-semibold uppercase tracking-heading text-steel no-underline transition-colors hover:text-ink"
-            >
-              {brand.data.brandName}
-            </a>
-          </li>
-        ))
+        brands.map((brand) => {
+          const logo = logoBySlug.get(brand.slug);
+          return (
+            <li>
+              <a
+                href={`/brands/${brand.slug}/`}
+                class="flex h-16 items-center justify-center no-underline"
+              >
+                {logo ? (
+                  <img
+                    src={logo.src}
+                    width={logo.width}
+                    height={logo.height}
+                    alt={`${brand.data.brandName} — aftermarket parts to fit`}
+                    loading="lazy"
+                    class="h-10 w-auto max-w-[10rem] object-contain grayscale transition-[filter] duration-150 hover:grayscale-0"
+                  />
+                ) : (
+                  <span class="font-heading text-h4 font-semibold uppercase tracking-heading text-steel transition-colors hover:text-ink">
+                    {brand.data.brandName}
+                  </span>
+                )}
+              </a>
+            </li>
+          );
+        })
       }
     </ul>
     <p class="mt-6 text-center text-meta text-steel">

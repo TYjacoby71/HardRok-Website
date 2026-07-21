@@ -28,3 +28,9 @@ The rotor is the heart of an impact crusher, and its wear components set your
 product shape and throughput. HardRok supplies rotor shoes, tips, distributor
 plates, and rotor wear liners to fit major VSI and HSI rotors. Send your rotor
 make and model, and we'll quote the matched wear set.
+
+<!-- Distributor relationship stated on HardRok's existing site (indexed
+     2026-07). TODO: confirm current status and preferred wording. -->
+HardRok is a national distributor for Techroq USA — high-performance
+replacement rotors engineered for seamless retrofitting across a wide range of
+VSI crusher brands, including machines from Sandvik and Metso lines.

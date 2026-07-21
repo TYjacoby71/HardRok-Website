@@ -27,3 +27,9 @@ slip in the wet season, carryback builds under the tail until housekeeping
 becomes a daily job. Each of those has a component-level fix that costs a
 fraction of the belt it protects. Tell us what your walkdowns are finding, and
 we'll help you prioritize what to replace and what to upgrade.
+
+<!-- Dealer relationship stated on HardRok's existing site (indexed 2026-07).
+     TODO: confirm current status and preferred wording. -->
+HardRok is an authorized dealer for Corrosion Engineering, Inc. — custom
+engineered rubber products for mining and aggregate processing, from impact
+beds and liners to specialty wear solutions.
