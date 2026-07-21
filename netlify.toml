@@ -1,0 +1,101 @@
+# HardRok.com — Netlify configuration.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# ---------------------------------------------------------------------------
+# Canonical origin enforcement (SPEC.md §3): 301 http->https and
+# non-www->www at the edge. Netlify serves both apex and www; these force
+# every variant to https://www.hardrok.com.
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from = "http://hardrok.com/*"
+  to = "https://www.hardrok.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "https://hardrok.com/*"
+  to = "https://www.hardrok.com/:splat"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "http://www.hardrok.com/*"
+  to = "https://www.hardrok.com/:splat"
+  status = 301
+  force = true
+
+# ---------------------------------------------------------------------------
+# Legacy GoDaddy 301 map (SPEC.md §3.1 — exact targets, required)
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from = "/home.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/crusher-components.html"
+  to = "/products/crusher-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/conveyor-components.html"
+  to = "/products/conveyor-components/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/pulley-components.html"
+  to = "/products/conveyor-components/pulleys/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/rotor-components.html"
+  to = "/products/rotor-components/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/wire-screening-media.html"
+  to = "/products/screening-media/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/crushers2.html"
+  to = "/equipment-for-sale/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/battleborn--wear-products.html"
+  to = "/products/battleborn-wear-products/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/contact/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/request-a-quote.html"
+  to = "/quote/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/automation.html"
+  to = "/products/"
+  status = 301
+  force = true

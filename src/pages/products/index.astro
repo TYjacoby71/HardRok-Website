@@ -6,6 +6,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import ProductCard from '@components/ProductCard.astro';
 import LeadForm from '@components/LeadForm.astro';
 import TodoBadge from '@components/TodoBadge.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
 
 const topLevel = (await getCollection('products', ({ data }) => !data.draft))
   .filter((p) => !p.slug.includes('/'))
@@ -44,6 +45,10 @@ const crumbs = [
 
     <div class="mt-12 max-w-xl">
       <LeadForm source="product_form" sourcePage="/products/" compact />
+    </div>
+
+    <div class="mt-12">
+      <TrademarkDisclaimer />
     </div>
   </div>
 </BaseLayout>

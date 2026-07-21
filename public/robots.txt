@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /lp/downtime-emergency/
+Disallow: /lp/screen-media-quote/
+Disallow: /thanks/
+
+Sitemap: https://www.hardrok.com/sitemap-index.xml
