@@ -57,9 +57,16 @@ const crumbs = [
 
         <section class="card p-6">
           <h2 class="text-h3">Visit / mail</h2>
+          {/* Corporate office per the existing site's directory listings (2026-07):
+              P.O. Box 295, Winnemucca NV 89445 · (775) 625-3101 · Galt, CA office.
+              TODO: confirm exact addresses + which numbers to publish. */}
           <p class="mt-2 text-steel">
-            {SITE.addressLocality}, {SITE.addressRegion}
-            <TodoBadge label="TODO: confirm street address" />
+            Corporate: {SITE.addressLocality}, {SITE.addressRegion}
+            <TodoBadge label="TODO: confirm mailing address" />
+          </p>
+          <p class="mt-2 text-steel">
+            California office: Galt, CA
+            <TodoBadge label="TODO: confirm CA address" />
           </p>
         </section>
       </div>

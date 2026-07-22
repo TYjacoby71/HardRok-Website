@@ -41,5 +41,12 @@ changeout and an unplanned week of downtime is usually two things — knowing wh
 to watch for, and having a supplier who can get the right part moving the same
 day you call. That's the job we've built our warehouse and our team around.
 
+<!-- Dealer relationship stated on HardRok's existing site (indexed 2026-07).
+     TODO: confirm current status and preferred wording. -->
+HardRok is an authorized dealer for Excel Foundry and Machine, a recognized
+premium line of replacement crusher parts for HP®, MP®, Symons®, Gyradisc®,
+and other major crusher families — alongside our own Battleborn™ wear line
+and CMS Cepcor engineered parts.
+
 Not sure exactly what you need? Send us a photo of the worn part and your
 machine model — our team quotes crusher parts every day.

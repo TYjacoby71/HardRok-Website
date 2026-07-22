@@ -14,4 +14,8 @@ localIndustries:
 
 From the Central Valley's sand-and-gravel plants to Sierra hard-rock quarries,
 California producers need parts fast. HardRok supplies crusher wear parts,
-screen media, and conveyor components across California.
+screen media, and conveyor components across California — anchored by our
+Galt, California office in the Central Valley.
+
+<!-- Galt CA office stated in the existing site's listings (2026-07).
+     TODO: confirm address and whether to publish it here. -->
