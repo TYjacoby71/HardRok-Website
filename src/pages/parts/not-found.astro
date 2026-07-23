@@ -1,0 +1,49 @@
+---
+// Landing page for part-number searches with no matching page. The number
+// is still quotable — this page's job is to convert the miss into a lead.
+// noindex: utility destination, not a search-engine page.
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import { SITE } from '@lib/site';
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Part number search', href: '/parts/not-found/' },
+];
+---
+
+<BaseLayout
+  title="Part Number Search | HardRok Equipment"
+  description="We don't have a page for that part number yet — but our team quotes numbers like it every day. Call (866) 427-3765 or send it through the form."
+  breadcrumbs={crumbs}
+  noindex
+>
+  <article class="container-content section-pad">
+    <h1>We don't have a page for that number — yet</h1>
+
+    <div class="prose-measure mt-4 space-y-3 text-body">
+      <p>
+        No exact match in our online catalog, but that means very little — our parts specialists
+        quote against OEM and aftermarket numbers every day, including plenty that aren't on the
+        site. Call{' '}
+        <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> ({SITE.hours})
+        and read the number to a rep, or send it through the form and we'll identify it, check
+        availability, and price it.
+      </p>
+      <p>
+        Tip: numbers match best with the machine make and model alongside — include them if you
+        have them.
+      </p>
+    </div>
+
+    <div class="mt-8 max-w-xl">
+      <LeadForm
+        source="product_form"
+        sourcePage="/parts/not-found/"
+        compact
+        prefillCategory="Crusher Parts"
+        heading="Send us the part number"
+      />
+    </div>
+  </article>
+</BaseLayout>

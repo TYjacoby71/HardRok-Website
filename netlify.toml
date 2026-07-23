@@ -8,6 +8,10 @@
   directory = "netlify/functions"
   node_bundler = "esbuild"
 
+# Part-number search: resolves numbers via the build-generated map.
+[functions."part-search"]
+  included_files = ["netlify/functions/data/part-search-map.json.gz"]
+
 # ---------------------------------------------------------------------------
 # Canonical origin enforcement (SPEC.md §3): 301 http->https and
 # non-www->www at the edge. Netlify serves both apex and www; these force

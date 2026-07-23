@@ -37,6 +37,27 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     </nav>
 
     <div class="hidden items-center gap-4 lg:flex">
+      <!-- Master part-number search: plain GET to the part-search function,
+           which 302s to the number's page. Works with JavaScript disabled. -->
+      <form action="/.netlify/functions/part-search" method="get" role="search" class="flex items-center">
+        <label for="pn-search" class="sr-only">Search by part number</label>
+        <input
+          id="pn-search"
+          name="q"
+          type="search"
+          required
+          placeholder="Search part #"
+          autocomplete="off"
+          class="w-36 rounded-l border border-r-0 border-steel/40 bg-white px-2.5 py-1.5 text-nav text-ink placeholder:text-steel focus:outline-none focus:ring-2 focus:ring-safety"
+        />
+        <button
+          type="submit"
+          class="rounded-r border border-steel/40 bg-concrete px-2.5 py-1.5 text-nav font-semibold text-ink transition-colors hover:bg-safety"
+          aria-label="Search part number"
+        >
+          Go
+        </button>
+      </form>
       <a
         href="/es/"
         lang="es"
