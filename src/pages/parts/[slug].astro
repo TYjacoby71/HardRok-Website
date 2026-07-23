@@ -1,8 +1,8 @@
 ---
-// Part-number cross-reference template: one page per OEM part number,
-// capturing exact-match searches ("N55308511 mantle"). Wording uses the
-// mandated "replacement for" / aftermarket language. Visitors land here from
-// search — these pages are deliberately not in the nav.
+// Part-number landing page template: one page per part number, capturing
+// exact-match searches. Three framings via pageType (distributor / dealer /
+// reference) — see the parts collection schema. Visitors land here from
+// search; pages are deliberately not in the nav.
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import LeadForm from '@components/LeadForm.astro';
@@ -24,7 +24,9 @@ const { data } = entry;
 const { Content } = await entry.render();
 
 const path = `/parts/${entry.slug}/`;
-const h1 = `Replacement for ${data.brand} ${data.oemNumber} — ${data.partName}`;
+const h1 = data.partName
+  ? `${data.brand} ${data.oemNumber} — ${data.partName}`
+  : `${data.brand} Part Number ${data.oemNumber}`;
 const crumbs = [
   { label: 'Home', href: '/' },
   { label: 'Products', href: '/products/' },
@@ -40,11 +42,76 @@ const crumbs = [
 >
   <article class="container-content section-pad">
     <h1>{h1}</h1>
-    <p class="prose-measure mt-4 text-body text-steel">
-      Premium aftermarket {data.partName.toLowerCase()} engineered to fit {data.brand}{' '}
-      {data.machine} crushers — referenced against OEM part number {data.oemNumber}. Multiple
-      manganese grades available. {SITE.responsePromise}
-    </p>
+
+    <div class="prose-measure mt-4 space-y-3 text-body">
+      {
+        data.pageType === 'distributor' && (
+          <p>
+            Genuine {data.supplier ?? data.brand} part — HardRok Equipment is a national
+            distributor for {data.supplier ?? data.brand}. {SITE.responsePromise}
+          </p>
+        )
+      }
+      {
+        data.pageType === 'dealer' && (
+          <p>
+            Supplied through HardRok's authorized {data.supplier ?? data.brand} dealership —
+            premium engineered aftermarket parts. {SITE.responsePromise}
+          </p>
+        )
+      }
+      {
+        data.pageType === 'reference' && (
+          <p>
+            Recognize this {data.brand} number? Our parts specialists quote against
+            {' '}{data.brand} reference numbers daily — call{' '}
+            <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> to speak
+            with a representative for pricing, availability, and fitment confirmation.
+          </p>
+        )
+      }
+    </div>
+
+    <dl class="mt-6 max-w-md space-y-2">
+      <div class="flex gap-3">
+        <dt class="w-32 shrink-0 font-semibold">Part number</dt>
+        <dd>{data.oemNumber}</dd>
+      </div>
+      <div class="flex gap-3">
+        <dt class="w-32 shrink-0 font-semibold">Brand</dt>
+        <dd>{data.brand}</dd>
+      </div>
+      {
+        data.partName && (
+          <div class="flex gap-3">
+            <dt class="w-32 shrink-0 font-semibold">Description</dt>
+            <dd>{data.partName}</dd>
+          </div>
+        )
+      }
+      {
+        data.weightLbs && (
+          <div class="flex gap-3">
+            <dt class="w-32 shrink-0 font-semibold">Weight</dt>
+            <dd>{data.weightLbs} lbs</dd>
+          </div>
+        )
+      }
+      {
+        data.fitments.length > 0 && (
+          <div class="flex gap-3">
+            <dt class="w-32 shrink-0 font-semibold">Fits</dt>
+            <dd>
+              <ul class="list-disc pl-4">
+                {data.fitments.map((f) => (
+                  <li>{f}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        )
+      }
+    </dl>
 
     <div class="prose-measure mt-6 space-y-4 [&_p]:leading-relaxed">
       <Content />
@@ -62,7 +129,7 @@ const crumbs = [
       <div class="space-y-4">
         <h2 class="text-h3">Have an OEM quote in hand?</h2>
         <p class="text-steel">
-          Send the number — we'll quote the engineered aftermarket equivalent against it. Call{' '}
+          Send the number — we'll quote against it. Call{' '}
           <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a>, {SITE.hours}.
         </p>
         {

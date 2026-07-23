@@ -1,16 +1,14 @@
 ---
 # DRAFT — template demonstration only, never published (draft: true).
-# Real entries are generated from dealer-catalog CSVs via
-# scripts/import-parts.mjs when the client supplies the catalogs.
+# Real entries are generated from QA-passed catalog CSVs via
+# scripts/generate-parts-pages.mjs (see that file for the page form).
 oemNumber: 'EXAMPLE-00000'
 brand: 'Example Brand'
-machine: 'Example Model'
-partName: 'Mantle'
-metaTitle: 'EXAMPLE-00000 Mantle Replacement | HardRok'
-metaDescription: 'Aftermarket mantle to fit Example Model — engineered replacement for OEM part EXAMPLE-00000. Multiple grades. Fast quotes from HardRok.'
+pageType: 'reference'
+metaTitle: 'Example Brand EXAMPLE-00000 | Part Quote | HardRok'
+metaDescription: 'Example Brand part number EXAMPLE-00000 — call HardRok Equipment at (866) 427-3765 to speak with a representative for pricing and fitment.'
 draft: true
 ---
 
-HardRok supplies a premium aftermarket mantle engineered to fit Example Brand
-Example Model crushers, referenced against OEM part number EXAMPLE-00000. Send
-your machine details and we'll confirm fit and quote against your OEM price.
+We stock and source parts against Example Brand reference numbers every day.
+Send this number through the form, or call and read it to a parts specialist.

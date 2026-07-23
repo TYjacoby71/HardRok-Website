@@ -108,18 +108,24 @@ const equipment = defineCollection({
   }),
 });
 
-// Part-number cross-reference pages ("Replacement for {OEM number}").
-// Generated in bulk from dealer catalogs via scripts/import-parts.mjs —
-// each markdown file becomes an indexed page capturing exact-match
-// part-number searches. draft defaults true so nothing unconfirmed ships.
+// Part-number landing pages, generated in bulk from QA-passed catalog rows
+// via scripts/generate-parts-pages.mjs. Each markdown file becomes an
+// indexed page capturing exact-match part-number searches.
+// pageType controls the framing:
+//   distributor — genuine supplier part HardRok distributes (Techroq)
+//   dealer      — supplied through an authorized dealership (CMS Cepcor)
+//   reference   — number+brand only; call-to-identify CTA (e.g. Symons refs)
 const parts = defineCollection({
   type: 'content',
   schema: z.object({
     oemNumber: z.string(),
-    brand: z.string(), // display name, e.g. "Nordberg/Metso"
+    brand: z.string(), // display name, e.g. "Techroq", "Symons"
     brandSlug: z.string().optional(), // links to /brands/{slug}/ when set
-    machine: z.string(), // e.g. "HP300"
-    partName: z.string(), // e.g. "Mantle"
+    supplier: z.string().optional(), // e.g. "Techroq USA"
+    pageType: z.enum(['distributor', 'dealer', 'reference']).default('reference'),
+    fitments: z.array(z.string()).default([]), // machines/rotors this fits
+    partName: z.string().optional(), // e.g. "Feed Tube" (absent on reference pages)
+    weightLbs: z.string().optional(),
     metaTitle: z.string().max(60),
     metaDescription: z.string().max(155),
     prefillCategory: z.string().default('Crusher Parts'),
