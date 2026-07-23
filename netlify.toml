@@ -6,6 +6,11 @@
 
 [functions]
   directory = "netlify/functions"
+
+# Temporary: data bundle for the one-shot parts_xref loader. Remove along
+# with ingest-xref-background.ts after the load is verified.
+[functions."ingest-xref-background"]
+  included_files = ["netlify/functions/data/*"]
   node_bundler = "esbuild"
 
 # ---------------------------------------------------------------------------
