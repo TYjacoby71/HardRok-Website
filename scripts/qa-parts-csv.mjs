@@ -41,10 +41,10 @@ const raw = parseCsv(fs.readFileSync(csvPath, 'utf8'));
 const header = raw.shift().map((h) => h.trim().toLowerCase());
 const idx = (names) => names.map((n) => header.indexOf(n)).find((i) => i !== -1) ?? -1;
 const iPn = idx(['oem_number', 'part_number', 'pn', 'pn_candidate']);
-const iBrand = idx(['brand']);
-const iMachine = idx(['machine', 'model']);
+const iBrand = idx(['brand', 'brand_family']);
+const iMachine = idx(['machine', 'model', 'machine_model_or_fitment']);
 const iName = idx(['part_name', 'description', 'desc']);
-const iSrc = idx(['source_pdf', 'source', 'pdf']);
+const iSrc = idx(['source_pdf', 'source_url', 'source', 'pdf']);
 if (iPn === -1) { console.error(`No part-number column found in header: ${header.join(',')}`); process.exit(1); }
 
 // Load text cache for provenance round-trips (normalize whitespace)
@@ -56,9 +56,21 @@ if (textDir && fs.existsSync(textDir)) {
 }
 const allText = Object.values(texts).join(' ');
 
-const PN_OK = /^(?:\d{2,4}-\d{3,4}(?:-[A-Z0-9]{1,4})?|\d{2}-\d{4}-\d{4}|[A-Z]{1,2}\d{7,10}|\d{6,10})$/;
-const NAV_JUNK = /home|contact|request a quote|copyright|about|products|www\.|http|@|password|cookie/i;
-const KNOWN_BRANDS = /symons|nordberg|metso|hp|mp|sandvik|omnicone|gyradisc|telsmith|cedarapids|allis|excel|fls|gyratory/i;
+const PN_OK = new RegExp(
+  '^(?:' +
+    [
+      '\\d{2,4}-\\d{3,4}(?:-[A-Z0-9]{1,4})?', // 9448-7434, 5520-8145-A3
+      '\\d{2}-\\d{4}-\\d{4}', // 70-1620-0114
+      '\\d{3}-\\d{4}-\\d{3}', // CMS Cepcor 442-3765-001
+      '[A-Z]{1,2}\\d{7,10}', // N55308511
+      '[A-Z]\\d{2,3}[A-Z0-9]{5,9}(?:/[A-Z0-9]{1,2})?', // Techroq B702S7140A, B69274106G/W
+      '\\d{3}\\.\\d{4}-\\d{3}', // Sandvik 485.0091-001
+      '\\d{6,10}', // Metso 10-digit
+    ].join('|') +
+    ')$',
+);
+const NAV_JUNK = /home|contact|request a quote|copyright|about us|www\.|http|@|password|cookie/i;
+const KNOWN_BRANDS = /symons|nordberg|metso|hp|mp|sandvik|omnicone|gyradisc|telsmith|cedarapids|allis|excel|fls|gyratory|techroq|cepcor|cms|trio|jaw|cone|vsi/i;
 
 const passed = [], rejected = [];
 const stats = { total: 0, byReason: {} };
