@@ -168,6 +168,26 @@ const resources = defineCollection({
   }),
 });
 
+// Cross-reference cluster pages: one page per cross-ref group from the
+// master dataset — all part numbers that industry catalog data references
+// together for the same brand/model/part-type. Captures searches for ANY
+// member number; makes no per-number interchange claims (sales team
+// confirms exact interchange before quoting).
+const partGroups = defineCollection({
+  type: 'content',
+  schema: z.object({
+    brand: z.string(),
+    modelFamily: z.string(),
+    partType: z.string(), // e.g. "Bowl Liner"
+    groupId: z.string(),
+    numberCount: z.number(),
+    metaTitle: z.string().max(60),
+    metaDescription: z.string().max(155),
+    prefillCategory: z.string().default('Crusher Parts'),
+    draft: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   products,
   brands,
@@ -178,4 +198,5 @@ export const collections = {
   resources,
   parts,
   'part-indexes': partIndexes,
+  'part-groups': partGroups,
 };

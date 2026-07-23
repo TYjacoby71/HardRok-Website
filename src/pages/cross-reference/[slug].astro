@@ -1,0 +1,68 @@
+---
+// Cross-reference cluster pages: "does your part carry any of these
+// numbers?" One page per cross-ref group — all numbers industry catalog
+// data references together for one brand/model/part-type. The page's job
+// is capturing the search and routing to sales; exact interchange is
+// confirmed by the sales team, never claimed per-number here.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const groups = await getCollection('part-groups', ({ data }) => !data.draft);
+  return groups.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'part-groups'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const path = `/cross-reference/${entry.slug}/`;
+const h1 = `${data.brand} ${data.modelFamily} ${data.partType} — Cross-Referenced Part Numbers`;
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products/' },
+  { label: `${data.brand} ${data.modelFamily} ${data.partType}`, href: path },
+];
+---
+
+<BaseLayout title={data.metaTitle} description={data.metaDescription} breadcrumbs={crumbs}>
+  <article class="container-content section-pad">
+    <h1>{h1}</h1>
+
+    <div class="prose-measure mt-4 space-y-3 text-body">
+      <p>
+        <strong>Does your part carry any of these numbers?</strong> Industry catalog data
+        cross-references the {data.numberCount} part numbers below together for
+        {' '}{data.brand} {data.modelFamily} {data.partType.toLowerCase()} parts. If your part —
+        or the number on your OEM quote — matches any of them, we can supply it or its
+        aftermarket equivalent. Call{' '}
+        <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> or send the
+        number through the form; our sales team confirms exact interchange before we quote.
+      </p>
+    </div>
+
+    <div class="mt-6 columns-2 gap-8 text-sm sm:columns-3 lg:columns-4 [&_ul]:list-none [&_ul]:pl-0 [&_li]:break-all [&_li]:py-0.5">
+      <Content />
+    </div>
+
+    <div class="mt-10 max-w-xl">
+      <LeadForm
+        source="product_form"
+        sourcePage={path}
+        compact
+        prefillCategory={data.prefillCategory}
+        heading={`Quote a ${data.brand} ${data.modelFamily} ${data.partType.toLowerCase()}`}
+      />
+    </div>
+
+    <div class="mt-12">
+      <TrademarkDisclaimer />
+    </div>
+  </article>
+</BaseLayout>
