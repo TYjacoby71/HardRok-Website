@@ -1,0 +1,67 @@
+---
+// Brand/model part-number index pages: the low-trust tail of the catalog
+// dataset, published as grouped lists rather than thousands of thin pages.
+// Visitors land here from exact part-number searches; the deliverable is
+// the call/quote CTA, not part data we can't stand behind.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const indexes = await getCollection('part-indexes', ({ data }) => !data.draft);
+  return indexes.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'part-indexes'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const path = `/part-numbers/${entry.slug}/`;
+const pageSuffix = data.totalPages > 1 ? ` — Page ${data.page} of ${data.totalPages}` : '';
+const h1 = `${data.brand} ${data.modelFamily} Part Numbers${pageSuffix}`;
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products/' },
+  { label: `${data.brand} ${data.modelFamily} part numbers`, href: path },
+];
+---
+
+<BaseLayout title={data.metaTitle} description={data.metaDescription} breadcrumbs={crumbs}>
+  <article class="container-content section-pad">
+    <h1>{h1}</h1>
+
+    <div class="prose-measure mt-4 space-y-3 text-body">
+      <p>
+        Part numbers referenced for {data.brand} {data.modelFamily} equipment. These numbers
+        require confirmation from our sales team — call{' '}
+        <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> or send the
+        number through the form, and a parts specialist will confirm what it is, availability,
+        and pricing. We supply premium aftermarket parts to fit {data.brand} machines; linked
+        numbers below have their own detail pages.
+      </p>
+    </div>
+
+    <div class="mt-6 columns-2 gap-8 text-sm sm:columns-3 lg:columns-4 [&_ul]:list-none [&_ul]:pl-0 [&_li]:break-all [&_li]:py-0.5">
+      <Content />
+    </div>
+
+    <div class="mt-10 max-w-xl">
+      <LeadForm
+        source="product_form"
+        sourcePage={path}
+        compact
+        prefillCategory={data.prefillCategory}
+        heading={`Quote a ${data.brand} ${data.modelFamily} part`}
+      />
+    </div>
+
+    <div class="mt-12">
+      <TrademarkDisclaimer />
+    </div>
+  </article>
+</BaseLayout>

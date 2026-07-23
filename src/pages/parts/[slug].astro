@@ -98,6 +98,24 @@ const crumbs = [
         )
       }
       {
+        data.crossRefs.length > 0 && (
+          <div class="flex gap-3">
+            <dt class="w-32 shrink-0 font-semibold">Cross references</dt>
+            <dd>
+              <ul class="list-disc pl-4">
+                {data.crossRefs.map((x) => (
+                  <li>{x}</li>
+                ))}
+              </ul>
+              <p class="mt-1 text-sm text-steel">
+                Interchange numbers from official supplier cross-reference data — the same
+                aftermarket part cataloged under different numbering.
+              </p>
+            </dd>
+          </div>
+        )
+      }
+      {
         data.fitments.length > 0 && (
           <div class="flex gap-3">
             <dt class="w-32 shrink-0 font-semibold">Fits</dt>

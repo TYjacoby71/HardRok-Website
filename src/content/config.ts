@@ -129,7 +129,30 @@ const parts = defineCollection({
     metaTitle: z.string().max(60),
     metaDescription: z.string().max(155),
     prefillCategory: z.string().default('Crusher Parts'),
+    // Verified interchange numbers (official supplier cross-reference data
+    // only — never inferred groups), e.g. "Sandvik 485.0091-001".
+    crossRefs: z.array(z.string()).default([]),
     draft: z.boolean().default(true),
+  }),
+});
+
+// Brand/model part-number index pages: one page per brand+model family
+// listing the catalog-lead numbers that do NOT merit individual pages
+// (low-trust tiers of the cross-reference dataset). Captures exact-match
+// part-number searches without publishing thousands of thin pages. Body
+// carries the number list as markdown (links where individual pages exist).
+const partIndexes = defineCollection({
+  type: 'content',
+  schema: z.object({
+    brand: z.string(),
+    modelFamily: z.string(),
+    numberCount: z.number(),
+    page: z.number().default(1), // pagination within a large group
+    totalPages: z.number().default(1),
+    metaTitle: z.string().max(60),
+    metaDescription: z.string().max(155),
+    prefillCategory: z.string().default('Crusher Parts'),
+    draft: z.boolean().default(false),
   }),
 });
 
@@ -154,4 +177,5 @@ export const collections = {
   'equipment-for-sale': equipment,
   resources,
   parts,
+  'part-indexes': partIndexes,
 };
