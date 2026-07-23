@@ -5,7 +5,7 @@ metaDescription: "Aftermarket crusher parts, screen media & conveyor components 
 state: 'Nevada'
 abbr: 'NV'
 order: 1
-repSlug: 'eric-dutton'
+repSlugs: ['eric-dutton', 'aaron-washington']
 localIndustries:
   - { label: 'Gold Mining', href: '/industries/gold-mining/' }
   - { label: 'Hard-Rock Mining', href: '/industries/hard-rock-mining/' }

@@ -53,7 +53,9 @@ const serviceAreas = defineCollection({
     state: z.string(),
     abbr: z.string().length(2),
     order: z.number().default(99),
-    repSlug: z.string().optional(), // TODO.md Part 2D: roster unconfirmed
+    // Reps covering this state (team collection slugs) — confirmed roster
+    // from hardrok.com/contact.html, 2026-07-23.
+    repSlugs: z.array(z.string()).default([]),
     localIndustries: z.array(z.object({ label: z.string(), href: z.string() })).default([]),
     shippingNotesTodo: z.boolean().default(true),
   }),

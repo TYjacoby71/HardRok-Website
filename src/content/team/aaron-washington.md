@@ -1,17 +1,16 @@
 ---
-# Name and role sourced from public directory listings for HardRok Equipment
-# (RocketReach/ZoomInfo, found 2026-07). Direct contact details NOT published
-# until the client confirms them (TODO.md Part 2D).
-# TODO: confirm direct phone, email, headshot, calendar URL with client.
+# Confirmed from hardrok.com/contact.html (site crawl, 2026-07-23).
 name: 'Aaron Washington'
-jobTitle: 'California Sales Manager'
-territory: 'California'
-metaTitle: 'Aaron Washington | California Sales | HardRok'
-metaDescription: 'Aaron Washington covers California for HardRok Equipment — crusher parts, screen media & conveyor components for aggregate and sand-and-gravel producers.'
+jobTitle: 'Sales Representative'
+territory: 'Western Nevada'
+metaTitle: 'Aaron Washington | Western Nevada Sales | HardRok'
+metaDescription: 'Aaron Washington covers Western Nevada for HardRok Equipment — crusher parts, screen media & conveyor components, quoted fast for producers.'
 order: 2
 active: true
-phoneConfirmed: false
-emailConfirmed: false
+phone: '(209) 329-0616'
+phoneConfirmed: true
+email: 'aaron.w@hardrok.com'
+emailConfirmed: true
 photoTodo: true
 quotesMost:
   - { label: 'Crusher Wear Parts', href: '/products/crusher-parts/' }
@@ -19,9 +18,6 @@ quotesMost:
   - { label: 'Conveyor Components', href: '/products/conveyor-components/' }
 ---
 
-Aaron covers California for HardRok Equipment, from Central Valley
-sand-and-gravel plants to Sierra hard-rock quarries.
+Aaron covers Western Nevada for HardRok Equipment.
 
-**[TODO: confirm]** — bio, direct contact details, and photo pending client
-confirmation. Until then, reach Aaron through the main line and your call will
-be routed.
+**[TODO: bio]** — a short bio and photo are pending from HardRok.

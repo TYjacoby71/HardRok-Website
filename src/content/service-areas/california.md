@@ -5,7 +5,7 @@ metaDescription: 'Aftermarket crusher parts, screen media & conveyor components 
 state: 'California'
 abbr: 'CA'
 order: 2
-repSlug: 'aaron-washington'
+repSlugs: ['luis-monjaras', 'steve-buchanan', 'jt-triplett']
 localIndustries:
   - { label: 'Aggregate', href: '/industries/aggregate/' }
   - { label: 'Sand & Gravel', href: '/industries/sand-and-gravel/' }

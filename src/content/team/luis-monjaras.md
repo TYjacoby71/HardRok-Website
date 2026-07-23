@@ -1,16 +1,16 @@
 ---
-# Sourced from public directory listings for HardRok Equipment (found
-# 2026-07). TODO: confirm role, territory, direct phone, email, headshot,
-# calendar URL (TODO.md Part 2D).
+# Confirmed from hardrok.com/contact.html (site crawl, 2026-07-23).
 name: 'Luis Monjaras'
-jobTitle: 'Northern California Sales Representative'
+jobTitle: 'Sales Representative'
 territory: 'Northern California'
 metaTitle: 'Luis Monjaras | Northern California Sales | HardRok'
 metaDescription: 'Luis Monjaras covers Northern California for HardRok Equipment — crusher wear parts, screen media & conveyor components for producers statewide.'
-order: 5
+order: 3
 active: true
-phoneConfirmed: false
-emailConfirmed: false
+phone: '(209) 329-1030'
+phoneConfirmed: true
+email: 'luis.m@hardrok.com'
+emailConfirmed: true
 photoTodo: true
 quotesMost:
   - { label: 'Crusher Wear Parts', href: '/products/crusher-parts/' }
@@ -19,5 +19,4 @@ quotesMost:
 
 Luis covers Northern California for HardRok Equipment.
 
-**[TODO: confirm]** — bio, direct contact details, and photo pending client
-confirmation. Until then, reach Luis through the main line.
+**[TODO: bio]** — a short bio and photo are pending from HardRok.

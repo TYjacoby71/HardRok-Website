@@ -23,7 +23,9 @@ const { entry } = Astro.props;
 const { data } = entry;
 const { Content } = await entry.render();
 
-const rep = data.repSlug ? await getEntry('team', data.repSlug) : undefined;
+const reps = (
+  await Promise.all(data.repSlugs.map((slug) => getEntry('team', slug)))
+).filter((r) => r !== undefined);
 
 const crumbs = [
   { label: 'Home', href: '/' },
@@ -91,11 +93,13 @@ const path = `/service-areas/${entry.slug}/`;
     </div>
 
     <section class="mt-12">
-      <h2 class="mb-4">Your {data.state} rep</h2>
+      <h2 class="mb-4">{reps.length === 1 ? `Your ${data.state} rep` : `Your ${data.state} reps`}</h2>
       {
-        rep ? (
-          <div class="max-w-md">
-            <RepCard rep={rep} />
+        reps.length > 0 ? (
+          <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {reps.map((rep) => (
+              <RepCard rep={rep!} />
+            ))}
           </div>
         ) : (
           <p class="max-w-xl text-steel">
