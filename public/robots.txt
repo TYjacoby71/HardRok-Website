@@ -3,5 +3,6 @@ Allow: /
 Disallow: /lp/downtime-emergency/
 Disallow: /lp/screen-media-quote/
 Disallow: /thanks/
+Disallow: /es/gracias/
 
 Sitemap: https://www.hardrok.com/sitemap-index.xml

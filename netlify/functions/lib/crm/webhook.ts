@@ -37,6 +37,7 @@ export const webhookAdapter: CrmAdapter = {
         state: lead.state,
         category: lead.category,
         machine: lead.machine,
+        part_number: lead.part_number,
         message: lead.message,
         attachment_url: lead.attachment_url,
         assigned_rep_id: lead.assigned_rep_id,

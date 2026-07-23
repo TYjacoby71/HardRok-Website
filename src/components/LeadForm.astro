@@ -1,6 +1,9 @@
 ---
 // Native HTML form, works with JS disabled (SPEC §1): plain POST to the
-// Netlify Function, which 303-redirects to /thanks/.
+// Netlify Function, which 303-redirects to /thanks/ (or /es/gracias/).
+// Bilingual: locale="es" renders Spanish labels; option VALUES stay English
+// so routing/reporting see one vocabulary. Spanish copy pending native-speaker
+// review by HardRok's team (TODO).
 import { LEAD_ENDPOINT, QUOTE_CATEGORIES, SERVICE_STATES, SITE } from '@lib/site';
 
 interface Props {
@@ -8,24 +11,87 @@ interface Props {
   sourcePage: string;
   compact?: boolean;
   prefillCategory?: string;
+  prefillPartNumber?: string;
   territory?: string; // state abbr pre-tag for service-area pages
   fileUpload?: boolean;
   heading?: string;
+  locale?: 'en' | 'es';
 }
 const {
   source,
   sourcePage,
   compact = false,
   prefillCategory,
+  prefillPartNumber,
   territory,
   fileUpload = false,
-  heading = compact ? 'Get a fast quote' : 'Request a Parts Quote',
+  locale = 'en',
+  heading,
 }: Props = Astro.props;
 
+const STR = {
+  en: {
+    headingFull: 'Request a Parts Quote',
+    headingCompact: 'Get a fast quote',
+    name: 'Name',
+    phone: 'Phone',
+    state: 'State',
+    statePlaceholder: 'Select your state…',
+    stateOther: 'Other / outside these states',
+    category: 'What do you need?',
+    message: 'Message',
+    messagePlaceholder: 'Part needed, machine make/model, or describe the problem',
+    email: 'Email (optional)',
+    company: 'Company (optional)',
+    machine: 'Machine make / model (optional)',
+    partNumber: 'Part number (optional)',
+    partNumberHint: 'Off the casting, an old invoice, or your maintenance system.',
+    file: 'Photo of the worn part (optional)',
+    part: 'Part needed',
+    partPlaceholder: 'e.g. bowl liner, blow bars, screen cloth',
+    submitFull: 'Send quote request',
+    submitCompact: 'Get my quote',
+    promise: SITE.responsePromise,
+    categoryLabels: {} as Record<string, string>,
+  },
+  es: {
+    headingFull: 'Solicite una cotización',
+    headingCompact: 'Cotización rápida',
+    name: 'Nombre',
+    phone: 'Teléfono',
+    state: 'Estado',
+    statePlaceholder: 'Seleccione su estado…',
+    stateOther: 'Otro / fuera de estos estados',
+    category: '¿Qué necesita?',
+    message: 'Mensaje',
+    messagePlaceholder: 'Pieza que necesita, marca/modelo de la máquina, o describa el problema',
+    email: 'Correo electrónico (opcional)',
+    company: 'Empresa (opcional)',
+    machine: 'Marca / modelo de la máquina (opcional)',
+    partNumber: 'Número de parte (opcional)',
+    partNumberHint: 'Del casting, una factura anterior o su sistema de mantenimiento.',
+    file: 'Foto de la pieza desgastada (opcional)',
+    part: 'Pieza que necesita',
+    partPlaceholder: 'ej. coraza, barras de impacto, malla de criba',
+    submitFull: 'Enviar solicitud',
+    submitCompact: 'Obtener cotización',
+    promise:
+      'Un representante de HardRok le llamará dentro de 2 horas hábiles, Lun–Vie 7–5 PST.',
+    categoryLabels: {
+      'Crusher Parts': 'Piezas de trituradora',
+      Conveyor: 'Componentes de transportador',
+      Screening: 'Mallas y cribado',
+      Equipment: 'Equipo',
+      Other: 'Otro',
+    } as Record<string, string>,
+  },
+}[locale];
+
+const headingText = heading ?? (compact ? STR.headingCompact : STR.headingFull);
 const inputClass =
   'w-full rounded border border-steel/40 bg-white px-3 py-2.5 text-body text-ink placeholder:text-steel/60';
 const labelClass = 'mb-1 block text-meta font-semibold text-ink';
-const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 + c.charCodeAt(0), 7)) % 10000}`;
+const uid = `lead-${locale}-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 + c.charCodeAt(0), 7)) % 10000}`;
 ---
 
 <form
@@ -35,10 +101,11 @@ const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 +
   class="card space-y-4 p-6"
   aria-labelledby={`${uid}-heading`}
 >
-  <h2 id={`${uid}-heading`} class="text-h3 normal-case">{heading}</h2>
+  <h2 id={`${uid}-heading`} class="text-h3 normal-case">{headingText}</h2>
 
   <input type="hidden" name="source" value={source} />
   <input type="hidden" name="source_page" value={sourcePage} />
+  <input type="hidden" name="language" value={locale} />
   {territory && <input type="hidden" name="state" value={territory} />}
   {compact && prefillCategory && <input type="hidden" name="category" value={prefillCategory} />}
 
@@ -49,11 +116,11 @@ const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 +
   </p>
 
   <p>
-    <label class={labelClass} for={`${uid}-name`}>Name <span aria-hidden="true">*</span></label>
+    <label class={labelClass} for={`${uid}-name`}>{STR.name} <span aria-hidden="true">*</span></label>
     <input id={`${uid}-name`} class={inputClass} type="text" name="name" required autocomplete="name" />
   </p>
   <p>
-    <label class={labelClass} for={`${uid}-phone`}>Phone <span aria-hidden="true">*</span></label>
+    <label class={labelClass} for={`${uid}-phone`}>{STR.phone} <span aria-hidden="true">*</span></label>
     <input id={`${uid}-phone`} class={inputClass} type="tel" name="phone" required autocomplete="tel" />
   </p>
 
@@ -63,32 +130,43 @@ const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 +
         {!territory && (
           <p>
             <label class={labelClass} for={`${uid}-state`}>
-              State <span aria-hidden="true">*</span>
+              {STR.state} <span aria-hidden="true">*</span>
             </label>
             <select id={`${uid}-state`} class={inputClass} name="state" required>
-              <option value="">Select your state…</option>
+              <option value="">{STR.statePlaceholder}</option>
               {SERVICE_STATES.map((s) => (
                 <option value={s.abbr}>{s.name}</option>
               ))}
-              <option value="OTHER">Other / outside these states</option>
+              <option value="OTHER">{STR.stateOther}</option>
             </select>
           </p>
         )}
         <p>
           <label class={labelClass} for={`${uid}-category`}>
-            What do you need? <span aria-hidden="true">*</span>
+            {STR.category} <span aria-hidden="true">*</span>
           </label>
           <select id={`${uid}-category`} class={inputClass} name="category" required>
             {QUOTE_CATEGORIES.map((c) => (
               <option value={c} selected={c === prefillCategory}>
-                {c}
+                {STR.categoryLabels[c] ?? c}
               </option>
             ))}
           </select>
         </p>
         <p>
+          <label class={labelClass} for={`${uid}-partnum`}>{STR.partNumber}</label>
+          <input
+            id={`${uid}-partnum`}
+            class={inputClass}
+            type="text"
+            name="part_number"
+            value={prefillPartNumber}
+          />
+          <span class="mt-1 block text-meta text-steel">{STR.partNumberHint}</span>
+        </p>
+        <p>
           <label class={labelClass} for={`${uid}-message`}>
-            Message <span aria-hidden="true">*</span>
+            {STR.message} <span aria-hidden="true">*</span>
           </label>
           <textarea
             id={`${uid}-message`}
@@ -96,25 +174,25 @@ const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 +
             name="message"
             rows="4"
             required
-            placeholder="Part needed, machine make/model, or describe the problem"
+            placeholder={STR.messagePlaceholder}
           />
         </p>
         <p>
-          <label class={labelClass} for={`${uid}-email`}>Email (optional)</label>
+          <label class={labelClass} for={`${uid}-email`}>{STR.email}</label>
           <input id={`${uid}-email`} class={inputClass} type="email" name="email" autocomplete="email" />
         </p>
         <p>
-          <label class={labelClass} for={`${uid}-company`}>Company (optional)</label>
+          <label class={labelClass} for={`${uid}-company`}>{STR.company}</label>
           <input id={`${uid}-company`} class={inputClass} type="text" name="company" autocomplete="organization" />
         </p>
         <p>
-          <label class={labelClass} for={`${uid}-machine`}>Machine make / model (optional)</label>
+          <label class={labelClass} for={`${uid}-machine`}>{STR.machine}</label>
           <input id={`${uid}-machine`} class={inputClass} type="text" name="machine" />
         </p>
         {fileUpload && (
           <p>
             <label class={labelClass} for={`${uid}-file`}>
-              Photo of the worn part (optional)
+              {STR.file}
             </label>
             <input
               id={`${uid}-file`}
@@ -131,19 +209,31 @@ const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 +
 
   {
     compact && (
-      <p>
-        <label class={labelClass} for={`${uid}-part`}>
-          Part needed <span aria-hidden="true">*</span>
-        </label>
-        <input
-          id={`${uid}-part`}
-          class={inputClass}
-          type="text"
-          name="message"
-          required
-          placeholder="e.g. bowl liner, blow bars, screen cloth"
-        />
-      </p>
+      <>
+        <p>
+          <label class={labelClass} for={`${uid}-part`}>
+            {STR.part} <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id={`${uid}-part`}
+            class={inputClass}
+            type="text"
+            name="message"
+            required
+            placeholder={STR.partPlaceholder}
+          />
+        </p>
+        <p>
+          <label class={labelClass} for={`${uid}-partnumc`}>{STR.partNumber}</label>
+          <input
+            id={`${uid}-partnumc`}
+            class={inputClass}
+            type="text"
+            name="part_number"
+            value={prefillPartNumber}
+          />
+        </p>
+      </>
     )
   }
 
@@ -151,7 +241,7 @@ const uid = `lead-${source}-${Math.abs([...sourcePage].reduce((h, c) => h * 31 +
     type="submit"
     class="w-full rounded border-2 border-safety bg-safety px-6 py-3 text-body font-semibold text-ink transition-colors hover:border-safety-hover hover:bg-safety-hover"
   >
-    {compact ? 'Get my quote' : 'Send quote request'}
+    {compact ? STR.submitCompact : STR.submitFull}
   </button>
-  <p class="text-meta text-steel">{SITE.responsePromise}</p>
+  <p class="text-meta text-steel">{STR.promise}</p>
 </form>

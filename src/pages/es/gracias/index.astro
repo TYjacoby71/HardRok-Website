@@ -1,0 +1,27 @@
+---
+// Spanish form-success page (the no-JS flow 303-redirects here for es forms).
+import LayoutEs from '@layouts/LayoutEs.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+---
+
+<LayoutEs
+  title="Solicitud Recibida | HardRok Equipment"
+  description="Recibimos su solicitud. Un representante de HardRok le llamará dentro de 2 horas hábiles, Lun–Vie 7–5 PST."
+  englishHref="/thanks/"
+  noindex
+>
+  <div class="container-content section-pad text-center">
+    <h1>Recibido — estamos en ello.</h1>
+    <p class="mx-auto mt-4 max-w-xl text-steel">
+      Un representante de HardRok le llamará dentro de 2 horas hábiles, Lun–Vie 7–5 PST.
+    </p>
+    <p class="mx-auto mt-2 max-w-xl text-steel">
+      ¿Lo necesita más rápido? Llame ahora al
+      <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a>.
+    </p>
+    <div class="mt-8">
+      <CTAButton href="/es/">Volver al inicio</CTAButton>
+    </div>
+  </div>
+</LayoutEs>

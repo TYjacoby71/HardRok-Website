@@ -10,6 +10,7 @@ export interface LeadInsert {
   state?: string | null;
   category?: string | null;
   machine?: string | null;
+  part_number?: string | null;
   message?: string | null;
   attachment_url?: string | null;
   raw?: Record<string, unknown>;

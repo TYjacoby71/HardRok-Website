@@ -106,6 +106,25 @@ const equipment = defineCollection({
   }),
 });
 
+// Part-number cross-reference pages ("Replacement for {OEM number}").
+// Generated in bulk from dealer catalogs via scripts/import-parts.mjs —
+// each markdown file becomes an indexed page capturing exact-match
+// part-number searches. draft defaults true so nothing unconfirmed ships.
+const parts = defineCollection({
+  type: 'content',
+  schema: z.object({
+    oemNumber: z.string(),
+    brand: z.string(), // display name, e.g. "Nordberg/Metso"
+    brandSlug: z.string().optional(), // links to /brands/{slug}/ when set
+    machine: z.string(), // e.g. "HP300"
+    partName: z.string(), // e.g. "Mantle"
+    metaTitle: z.string().max(60),
+    metaDescription: z.string().max(155),
+    prefillCategory: z.string().default('Crusher Parts'),
+    draft: z.boolean().default(true),
+  }),
+});
+
 const resources = defineCollection({
   type: 'content',
   schema: z.object({
@@ -126,4 +145,5 @@ export const collections = {
   team,
   'equipment-for-sale': equipment,
   resources,
+  parts,
 };

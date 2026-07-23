@@ -1,0 +1,82 @@
+---
+// Part-number cross-reference template: one page per OEM part number,
+// capturing exact-match searches ("N55308511 mantle"). Wording uses the
+// mandated "replacement for" / aftermarket language. Visitors land here from
+// search — these pages are deliberately not in the nav.
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import LeadForm from '@components/LeadForm.astro';
+import TrademarkDisclaimer from '@components/TrademarkDisclaimer.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { productSchema } from '@lib/schema';
+import { SITE } from '@lib/site';
+
+export async function getStaticPaths() {
+  const parts = await getCollection('parts', ({ data }) => !data.draft);
+  return parts.map((entry) => ({ params: { slug: entry.slug }, props: { entry } }));
+}
+
+interface Props {
+  entry: CollectionEntry<'parts'>;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await entry.render();
+
+const path = `/parts/${entry.slug}/`;
+const h1 = `Replacement for ${data.brand} ${data.oemNumber} — ${data.partName}`;
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products/' },
+  { label: `${data.brand} ${data.oemNumber}`, href: path },
+];
+---
+
+<BaseLayout
+  title={data.metaTitle}
+  description={data.metaDescription}
+  breadcrumbs={crumbs}
+  schemas={[productSchema({ name: h1, description: data.metaDescription, url: path })]}
+>
+  <article class="container-content section-pad">
+    <h1>{h1}</h1>
+    <p class="prose-measure mt-4 text-body text-steel">
+      Premium aftermarket {data.partName.toLowerCase()} engineered to fit {data.brand}{' '}
+      {data.machine} crushers — referenced against OEM part number {data.oemNumber}. Multiple
+      manganese grades available. {SITE.responsePromise}
+    </p>
+
+    <div class="prose-measure mt-6 space-y-4 [&_p]:leading-relaxed">
+      <Content />
+    </div>
+
+    <div class="mt-8 grid items-start gap-10 lg:grid-cols-2">
+      <LeadForm
+        source="product_form"
+        sourcePage={path}
+        compact
+        prefillCategory={data.prefillCategory}
+        prefillPartNumber={data.oemNumber}
+        heading={`Quote this part (${data.oemNumber})`}
+      />
+      <div class="space-y-4">
+        <h2 class="text-h3">Have an OEM quote in hand?</h2>
+        <p class="text-steel">
+          Send the number — we'll quote the engineered aftermarket equivalent against it. Call{' '}
+          <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a>, {SITE.hours}.
+        </p>
+        {
+          data.brandSlug && (
+            <CTAButton href={`/brands/${data.brandSlug}/`} variant="secondary">
+              All parts to fit {data.brand}
+            </CTAButton>
+          )
+        }
+      </div>
+    </div>
+
+    <div class="mt-12">
+      <TrademarkDisclaimer />
+    </div>
+  </article>
+</BaseLayout>

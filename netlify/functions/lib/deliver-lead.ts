@@ -27,6 +27,7 @@ function leadEmailContent(lead: LeadRow, rep: RepRow | null) {
     ['State', lead.state],
     ['Category', lead.category],
     ['Machine', lead.machine],
+    ['Part number', lead.part_number],
     ['Message', lead.message],
     ['Photo', lead.attachment_url],
     ['Source', `${lead.source}${lead.source_page ? ` (${lead.source_page})` : ''}`],

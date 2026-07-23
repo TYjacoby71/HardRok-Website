@@ -37,6 +37,13 @@ const isActive = (href: string) => currentPath === href || (href !== '/' && curr
     </nav>
 
     <div class="hidden items-center gap-4 lg:flex">
+      <a
+        href="/es/"
+        lang="es"
+        class="text-nav font-medium text-steel no-underline hover:text-ink hover:underline"
+      >
+        Español
+      </a>
       <a href={SITE.phoneHref} class="text-nav font-semibold text-ink no-underline hover:underline">
         {SITE.phone}
       </a>

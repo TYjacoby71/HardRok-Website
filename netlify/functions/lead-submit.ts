@@ -28,8 +28,12 @@ export default async function handler(req: Request, _context: Context): Promise<
   }
 
   const wantsHtml = (req.headers.get('accept') ?? '').includes('text/html');
+  const language = text(form, 'language') === 'es' ? 'es' : 'en';
   const redirect = () =>
-    Response.redirect(new URL('/thanks/', process.env.URL ?? 'https://www.hardrok.com'), 303);
+    Response.redirect(
+      new URL(language === 'es' ? '/es/gracias/' : '/thanks/', process.env.URL ?? 'https://www.hardrok.com'),
+      303,
+    );
 
   // Honeypot: bots fill it; humans never see it. Pretend success.
   if (text(form, 'company_website')) {
@@ -87,9 +91,10 @@ export default async function handler(req: Request, _context: Context): Promise<
       state: text(form, 'state')?.toUpperCase() ?? null,
       category: text(form, 'category'),
       machine: text(form, 'machine'),
+      part_number: text(form, 'part_number'),
       message: text(form, 'message'),
       attachment_url: attachmentUrl,
-      raw: { user_agent: req.headers.get('user-agent') },
+      raw: { user_agent: req.headers.get('user-agent'), language },
     })
     .select('*')
     .single();

@@ -19,6 +19,8 @@ interface Props {
   noindex?: boolean;
   ogType?: 'website' | 'article';
   schemas?: Record<string, unknown>[]; // page-specific JSON-LD
+  // hreflang pairs for pages with a Spanish counterpart
+  alternates?: { hreflang: string; href: string }[];
 }
 const {
   title,
@@ -27,6 +29,7 @@ const {
   noindex = false,
   ogType = 'website',
   schemas = [],
+  alternates = [],
 } = Astro.props;
 
 const path = Astro.url.pathname;
@@ -43,6 +46,11 @@ const gaId = import.meta.env.PUBLIC_GA4_ID as string | undefined;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {
+      alternates.map((alt) => (
+        <link rel="alternate" hreflang={alt.hreflang} href={`${SITE.origin}${alt.href}`} />
+      ))
+    }
     <meta
       name="robots"
       content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large'}

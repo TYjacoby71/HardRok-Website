@@ -1,0 +1,89 @@
+---
+// Spanish home (conversion path). TODO: native-speaker review by HardRok team.
+import LayoutEs from '@layouts/LayoutEs.astro';
+import CTAButton from '@components/CTAButton.astro';
+import { SITE } from '@lib/site';
+
+const categories = [
+  {
+    title: 'Piezas de trituradora',
+    href: '/es/cotizacion/',
+    description: 'Muelas, mantos, corazas, barras de impacto y manganeso para todas las marcas principales.',
+  },
+  {
+    title: 'Componentes de transportador',
+    href: '/es/cotizacion/',
+    description: 'Rodillos, poleas, banda transportadora, limpiadores de banda y bases de motor.',
+  },
+  {
+    title: 'Mallas de criba',
+    href: '/es/cotizacion/',
+    description: 'Malla de alambre tejido y paneles de uretano, fabricados a su medida en pocos días.',
+  },
+];
+---
+
+<LayoutEs
+  title="Piezas de Trituradora, Bandas y Mallas | HardRok"
+  description="Piezas de desgaste para trituradoras, componentes de transportador y mallas de criba. Más de 40 años de experiencia. Cotización rápida — llame hoy."
+  englishHref="/"
+>
+  <section class="relative overflow-hidden bg-ink text-white">
+    <img
+      src="/images/placeholder-crushing-equipment.svg"
+      alt=""
+      width="1600"
+      height="640"
+      class="absolute inset-0 h-full w-full object-cover opacity-40"
+      fetchpriority="high"
+    />
+    <div class="container-content relative section-pad">
+      <h1 class="max-w-4xl text-white">
+        Piezas de trituradora, componentes de transportador y mallas — enviados rápido.
+      </h1>
+      <p class="prose-measure mt-5 text-body text-white/85">
+        Por más de 40 años, HardRok Equipment ha mantenido en producción las operaciones de
+        trituración, transporte y cribado. Tenemos en almacén piezas de desgaste de primera
+        calidad, manganeso, mallas de criba y componentes de transportador — y enviamos rápido,
+        porque cada hora de paro le cuesta dinero. Díganos qué pieza necesita o cuál es el
+        problema; le cotizamos.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-4">
+        <CTAButton href="/es/cotizacion/">Solicitar cotización</CTAButton>
+        <CTAButton href={SITE.phoneHref} variant="secondary-inverse">
+          Llame al {SITE.phone}
+        </CTAButton>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-pad">
+    <div class="container-content">
+      <h2 class="mb-8">Qué suministramos</h2>
+      <div class="grid gap-6 md:grid-cols-3">
+        {
+          categories.map((c) => (
+            <a href={c.href} class="card block p-6 no-underline">
+              <h3 class="mb-2 text-ink">{c.title}</h3>
+              <p class="text-meta text-steel">{c.description}</p>
+              <span class="mt-4 inline-block text-meta font-semibold uppercase tracking-heading text-ink underline">
+                Cotizar →
+              </span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-safety">
+    <div class="container-content flex flex-col items-center gap-4 py-10 text-center">
+      <h2 class="text-ink">¿Trituradora parada? Envíenos una foto de la pieza.</h2>
+      <p class="max-w-2xl text-ink">
+        Llame al {SITE.phone} — o use el formulario de cotización y adjunte una foto de la pieza
+        desgastada. Un representante le llama dentro de 2 horas hábiles.
+      </p>
+      <CTAButton href="/es/cotizacion/" variant="secondary">Solicitar cotización</CTAButton>
+    </div>
+  </section>
+</LayoutEs>

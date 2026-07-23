@@ -1,0 +1,37 @@
+---
+// Spanish quote page. TODO: native-speaker review by HardRok team.
+import LayoutEs from '@layouts/LayoutEs.astro';
+import LeadForm from '@components/LeadForm.astro';
+import { SITE } from '@lib/site';
+---
+
+<LayoutEs
+  title="Solicite una Cotización | HardRok Equipment"
+  description="Cotización rápida de piezas para trituradoras, mallas y componentes. Envíe una foto de la pieza desgastada — le llamamos dentro de 2 horas hábiles."
+  englishHref="/quote/"
+>
+  <div class="container-content section-pad">
+    <h1>Solicite una cotización de piezas</h1>
+    <p class="prose-measure mt-4 text-steel">
+      Cinco campos y listo. Adjunte una foto de la pieza desgastada si la tiene — es el camino
+      más rápido a una cotización exacta.
+    </p>
+
+    <div class="mt-8 grid items-start gap-10 lg:grid-cols-2">
+      <LeadForm source="quote_form" sourcePage="/es/cotizacion/" fileUpload locale="es" />
+
+      <div class="space-y-8">
+        <section class="card p-6">
+          <h2 class="text-h3">¿Prefiere llamar?</h2>
+          <p class="mt-2 text-steel">
+            Llame al <a href={SITE.phoneHref} class="font-semibold underline">{SITE.phone}</a> —
+            Lun–Vie 7am–5pm PST. Le atiende un especialista en piezas, no una grabadora.
+          </p>
+        </section>
+        <p class="text-meta text-steel">
+          Un representante de HardRok le llamará dentro de 2 horas hábiles, Lun–Vie 7–5 PST.
+        </p>
+      </div>
+    </div>
+  </div>
+</LayoutEs>

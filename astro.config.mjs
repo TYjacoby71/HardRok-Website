@@ -16,7 +16,8 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/lp/downtime-emergency/') &&
         !page.includes('/lp/screen-media-quote/') &&
-        !page.includes('/thanks/'),
+        !page.includes('/thanks/') &&
+        !page.includes('/es/gracias/'),
     }),
   ],
 });

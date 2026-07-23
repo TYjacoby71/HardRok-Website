@@ -11,9 +11,12 @@ export async function alertRep(lead: LeadRow, rep: RepRow | null): Promise<void>
   const recordLink = projectRef
     ? `https://supabase.com/dashboard/project/${projectRef}/editor/leads`
     : '';
+  const language = (lead.raw as Record<string, unknown> | undefined)?.language;
   const body =
     `New HardRok lead: ${lead.name ?? 'Unknown'}, ${lead.phone}` +
     ` | ${lead.category ?? 'n/a'} | ${lead.state ?? 'n/a'}` +
+    (lead.part_number ? ` | part# ${lead.part_number}` : '') +
+    (language === 'es' ? ' | ES-speaker (hable español)' : '') +
     (msg ? ` | "${msg}"` : '') +
     ` | lead id ${lead.id}` +
     (recordLink ? ` ${recordLink}` : '');
