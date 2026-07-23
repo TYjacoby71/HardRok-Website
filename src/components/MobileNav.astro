@@ -13,8 +13,12 @@ import { NAV_LINKS, SITE } from '@lib/site';
     <span class="block h-0.5 w-6 bg-ink" aria-hidden="true"></span>
     <span class="block h-0.5 w-6 bg-ink" aria-hidden="true"></span>
   </summary>
-  <div class="fixed inset-0 top-[57px] z-50 flex flex-col justify-end overflow-y-auto bg-ink px-6 pb-24 pt-8">
-    <nav aria-label="Mobile">
+  <!-- mt-auto (not justify-end) bottom-weights the links for thumb reach but
+       stays scrollable when the list outgrows the viewport; overscroll-contain
+       plus the body lock below stop the page scrolling behind the overlay.
+       On taller (sm+) screens the list top-aligns instead. -->
+  <div class="fixed inset-0 top-[57px] z-50 flex flex-col overflow-y-auto overscroll-contain bg-ink px-6 pb-24 pt-8">
+    <nav aria-label="Mobile" class="mt-auto sm:mb-auto sm:mt-4">
       <ul class="space-y-1">
         {
           NAV_LINKS.map((link) => (
@@ -57,3 +61,11 @@ import { NAV_LINKS, SITE } from '@lib/site';
     </nav>
   </div>
 </details>
+
+<style is:global>
+  /* Lock page scroll while the mobile menu overlay is open (CSS-only, so it
+     works with JavaScript disabled, matching the details/summary approach). */
+  body:has(.mobile-nav[open]) {
+    overflow: hidden;
+  }
+</style>
