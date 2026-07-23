@@ -25,9 +25,38 @@ const crumbs = [
   <div class="container-content section-pad">
     <h1>Equipment for Sale</h1>
     <p class="prose-measure mt-4 text-steel">
-      Used equipment moves fast and the best deals never make it to a listing.
-      <TodoBadge label="TODO: current inventory from client" />
+      Used equipment moves fast and the best deals never make it to a listing. Inventory below
+      was carried over from our previous site — call to confirm current availability.
+      <TodoBadge label="TODO: confirm current inventory with client" />
     </p>
+
+    {/* Real inventory photos from the site archive (2026-07-23) */}
+    <div class="mt-6 flex flex-wrap gap-4">
+      <img
+        src="/images/cone-crusher-yard.webp"
+        alt="Cone crusher in the HardRok yard"
+        width="205"
+        height="219"
+        loading="lazy"
+        class="rounded-card border border-card"
+      />
+      <img
+        src="/images/cone-crusher-bowl-inventory.webp"
+        alt="Cone crusher bowl from HardRok's parts inventory"
+        width="290"
+        height="238"
+        loading="lazy"
+        class="rounded-card border border-card"
+      />
+      <img
+        src="/images/cone-crusher-head-assembly-inventory.webp"
+        alt="Cone crusher head assembly staged for shipment"
+        width="304"
+        height="178"
+        loading="lazy"
+        class="rounded-card border border-card"
+      />
+    </div>
 
     {
       listings.length > 0 ? (

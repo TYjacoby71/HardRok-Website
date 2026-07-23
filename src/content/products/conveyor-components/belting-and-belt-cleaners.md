@@ -22,3 +22,5 @@ Carryback costs you cleanup, roller life, and housekeeping compliance. HardRok
 supplies conveyor belting to spec and a full range of primary and secondary
 belt cleaners with replacement blades. Tell us your belt width, speed, and
 material, and we'll match belting and the right cleaner setup.
+
+<img src="/images/conveyor-belt-vulcanized-repair.webp" alt="Conveyor belt with a vulcanized repair patch in the field" width="900" height="1200" loading="lazy" style="max-width:420px;height:auto;border-radius:8px" />

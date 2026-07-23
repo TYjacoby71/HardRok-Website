@@ -13,6 +13,8 @@ order: 6
 draft: false
 ---
 
+<img src="/images/cone-crusher-head-assembly-inventory.webp" alt="Cone crusher head assembly from HardRok's parts inventory" width="304" height="178" loading="lazy" style="border-radius:8px" />
+
 A sample of the cone crusher wear parts and components currently stocked —
 each listed with its OEM reference number:
 
