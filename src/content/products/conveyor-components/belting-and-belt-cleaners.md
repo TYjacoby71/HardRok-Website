@@ -23,4 +23,10 @@ supplies conveyor belting to spec and a full range of primary and secondary
 belt cleaners with replacement blades. Tell us your belt width, speed, and
 material, and we'll match belting and the right cleaner setup.
 
+<img src="/images/conveyor-belt-cleaner-installed.webp" alt="Belt cleaner installed on a working conveyor head pulley" width="1400" height="963" loading="lazy" style="max-width:560px;height:auto;border-radius:8px" />
+
+We also supply **Super-Screw®** flexible rubber belt splices — a
+screw-applied splice that gets a damaged belt back in service fast, without
+vulcanizing equipment or waiting on a splice crew.
+
 <img src="/images/conveyor-belt-vulcanized-repair.webp" alt="Conveyor belt with a vulcanized repair patch in the field" width="900" height="1200" loading="lazy" style="max-width:420px;height:auto;border-radius:8px" />

@@ -194,3 +194,88 @@
   to = "/equipment-for-sale/symons-7ft-countershaft-eccentric-assemblies/"
   status = 301
   force = true
+
+# Remaining sitemap URLs from the complete 37-page crawl (2026-07-23)
+[[redirects]]
+  from = "/conveyor-literature.html"
+  to = "/products/conveyor-components/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/flex-mat-3.html"
+  to = "/products/screening-media/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hp200.html"
+  to = "/brands/metso-nordberg-hp/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hp300.html"
+  to = "/brands/metso-nordberg-hp/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hp400.html"
+  to = "/brands/metso-nordberg-hp/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hp500.html"
+  to = "/brands/metso-nordberg-hp/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/jaw-crushers.html"
+  to = "/equipment-for-sale/jaw-crusher-parts-inventory/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/maintenance---repair.html"
+  to = "/contact/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/misc..html"
+  to = "/products/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/parts.html"
+  to = "/products/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/products.html"
+  to = "/products/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/super-screw-introduction.html"
+  to = "/products/conveyor-components/belting-and-belt-cleaners/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/symons-3--parts.html"
+  to = "/equipment-for-sale/symons-3ft-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/washing-components.html"
+  to = "/products/"
+  status = 301
+  force = true

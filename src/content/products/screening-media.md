@@ -27,3 +27,17 @@ Blinding and pegging have media-level answers too, from wire diameter changes to
 self-cleaning weaves. If your screens are the bottleneck — or your operators are
 changing panels more often than they should — that's exactly the conversation
 our team has every day.
+
+<!-- Dealer relationship confirmed on HardRok's existing site (flex-mat-3.html,
+     archived 2026-07-23): authorized dealer of Major Wire's products. -->
+<img src="/images/logos/flex-mat.png" alt="Flex-Mat high-performance screen media logo" width="322" height="95" loading="lazy" style="max-width:200px;height:auto" />
+
+## Flex-Mat® self-cleaning media
+
+HardRok is an authorized dealer of Major Wire's products, including
+OptimumWire® and Flex-Mat® high-performance self-cleaning screen media.
+Flex-Mat® 3 bonds independently vibrating wires with polyurethane strips —
+a third screening category between woven wire and polyurethane that fights
+blinding, pegging, and clogging on every deck while keeping open area high.
+Available for tensioned and modular decks; tell us your application and we'll
+advise whether it earns its cost on your material.
