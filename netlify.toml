@@ -6,11 +6,6 @@
 
 [functions]
   directory = "netlify/functions"
-
-# Temporary: section-map bundle for the one-shot parts_xref backfill.
-# Remove along with backfill-sections-background.ts once verified.
-[functions."backfill-sections-background"]
-  included_files = ["netlify/functions/data/*"]
   node_bundler = "esbuild"
 
 # ---------------------------------------------------------------------------
