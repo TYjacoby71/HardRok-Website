@@ -157,3 +157,40 @@
   to = "/equipment-for-sale/"
   status = 301
   force = true
+
+# Per-model Symons inventory pages found in the 2026-07-23 site archive
+[[redirects]]
+  from = "/cone-crushers-parts.html"
+  to = "/products/crusher-parts/cone-crusher-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/2--short-head-parts.html"
+  to = "/equipment-for-sale/symons-2ft-short-head-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/4--std---4--sh-parts.html"
+  to = "/equipment-for-sale/symons-4-25ft-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/5.5--std---5.5--sh-parts.html"
+  to = "/equipment-for-sale/symons-5-5ft-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/7--std---7--sh-parts.html"
+  to = "/equipment-for-sale/symons-7ft-parts/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/7-ft-counter-shaft-box-asm.html"
+  to = "/equipment-for-sale/symons-7ft-countershaft-eccentric-assemblies/"
+  status = 301
+  force = true

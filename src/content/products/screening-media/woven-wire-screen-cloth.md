@@ -28,6 +28,16 @@ size, opening, and hook type, and we'll quote made-to-spec cloth.
      (optimumwire.html, indexed 2026-07). TODO: confirm current
      dealer/distributor status and preferred wording with client. -->
 
+## Screen types at a glance
+
+<!-- Data from HardRok's own site (published comparison table, archived 2026-07-23) -->
+
+| Screen type | Available opening sizes | Best for… |
+| --- | --- | --- |
+| Square Opening Woven Wire | 3/16" – 2½" | Versatile, standard sizing for a wide range of applications |
+| Hi-Rise Wire Screens | 5/8", 7/8", and 1" | Increased capacity and high-tonnage efficiency |
+| Livewire Wire Screens | 3/16", 1/4", 7/16" and 1/2" | Eliminating blinding and plugging in damp or sticky conditions |
+
 ## Specialty weaves we supply
 
 **OptimumWire®** double-weave screen cloth is built for heavy-impact

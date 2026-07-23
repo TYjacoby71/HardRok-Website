@@ -29,8 +29,10 @@ product shape and throughput. HardRok supplies rotor shoes, tips, distributor
 plates, and rotor wear liners to fit major VSI and HSI rotors. Send your rotor
 make and model, and we'll quote the matched wear set.
 
-<!-- Distributor relationship stated on HardRok's existing site (indexed
-     2026-07). TODO: confirm current status and preferred wording. -->
+<!-- Distributor relationship stated on HardRok's existing site (confirmed
+     in the 2026-07-23 site archive; logo from same archive). -->
+<img src="/images/logos/techroq-usa.png" alt="Techroq USA Inc. logo" width="490" height="77" loading="lazy" style="max-width:240px;height:auto" />
+
 HardRok is a national distributor for Techroq USA — high-performance
 replacement rotors engineered for seamless retrofitting across a wide range of
 VSI crusher brands, including machines from Sandvik and Metso lines.

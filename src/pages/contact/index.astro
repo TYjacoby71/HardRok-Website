@@ -60,19 +60,41 @@ const crumbs = [
           </p>
         </section>
 
+        {/* Offices + leadership confirmed from the site's own contact page (2026-07-23) */}
         <section class="card p-6">
-          <h2 class="text-h3">Visit / mail</h2>
-          {/* Corporate office per the existing site's directory listings (2026-07):
-              P.O. Box 295, Winnemucca NV 89445 · (775) 625-3101 · Galt, CA office.
-              TODO: confirm exact addresses + which numbers to publish. */}
-          <p class="mt-2 text-steel">
-            Corporate: {SITE.addressLocality}, {SITE.addressRegion}
-            <TodoBadge label="TODO: confirm mailing address" />
-          </p>
-          <p class="mt-2 text-steel">
-            California office: Galt, CA
-            <TodoBadge label="TODO: confirm CA address" />
-          </p>
+          <h2 class="text-h3">Offices</h2>
+          <address class="mt-2 space-y-4 not-italic text-steel">
+            <p>
+              <strong class="text-ink">Corporate Office</strong><br />
+              HardRok Equipment Inc.<br />
+              P.O. Box 295, Winnemucca, NV 89445<br />
+              Phone: <a href="tel:+17756253101" class="underline">(775) 625-3101</a> · Fax: (775) 625-3141
+            </p>
+            <p>
+              <strong class="text-ink">California Office &amp; Warehouse</strong><br />
+              85 Enterprise Court, Suite A, Galt, CA 95632<br />
+              Phone: <a href="tel:+12097452204" class="underline">(209) 745-2204</a> · Warehouse:
+              <a href="tel:+12097452209" class="underline">(209) 745-2209</a>
+            </p>
+          </address>
+        </section>
+
+        <section class="card p-6">
+          <h2 class="text-h3">Leadership</h2>
+          <ul class="mt-2 space-y-3 text-steel">
+            <li>
+              <strong class="text-ink">Theodore Zebroski</strong> — President/CEO ·
+              <a href="mailto:taz@hardrok.com" class="underline">taz@hardrok.com</a>
+            </li>
+            <li>
+              <strong class="text-ink">Eric Dutton</strong> — Vice President ·
+              <a href="mailto:eric@hardrok.com" class="underline">eric@hardrok.com</a>
+            </li>
+            <li>
+              <strong class="text-ink">Justin Kroeck</strong> — CA Operations Manager ·
+              <a href="mailto:justin.k@hardrok.com" class="underline">justin.k@hardrok.com</a>
+            </li>
+          </ul>
         </section>
       </div>
 

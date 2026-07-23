@@ -28,8 +28,10 @@ becomes a daily job. Each of those has a component-level fix that costs a
 fraction of the belt it protects. Tell us what your walkdowns are finding, and
 we'll help you prioritize what to replace and what to upgrade.
 
-<!-- Dealer relationship stated on HardRok's existing site (indexed 2026-07).
-     TODO: confirm current status and preferred wording. -->
+<!-- Dealer relationship stated on HardRok's existing site (confirmed in the
+     2026-07-23 site archive; logo from same archive). -->
+<img src="/images/logos/corrosion-engineering.png" alt="Corrosion Engineering, Inc. logo" width="198" height="119" loading="lazy" style="max-width:140px;height:auto" />
+
 HardRok is an authorized dealer for Corrosion Engineering, Inc. — custom
 engineered rubber products for mining and aggregate processing, from impact
 beds and liners to specialty wear solutions.

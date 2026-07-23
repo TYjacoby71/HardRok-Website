@@ -45,11 +45,14 @@ export function localBusinessSchema(): JsonLd {
     url: SITE.origin,
     telephone: '+1-866-427-3765',
     openingHours: 'Mo-Fr 07:00-17:00',
-    // TODO: add streetAddress + postalCode once HQ address is confirmed (TODO.md Part 2C)
+    // Physical location with warehouse (confirmed from the site's contact
+    // page, 2026-07-23). Corporate mailing address is Winnemucca, NV.
     address: {
       '@type': 'PostalAddress',
-      addressLocality: SITE.addressLocality,
-      addressRegion: SITE.addressRegion,
+      streetAddress: '85 Enterprise Court, Suite A',
+      addressLocality: 'Galt',
+      addressRegion: 'CA',
+      postalCode: '95632',
       addressCountry: 'US',
     },
   };
