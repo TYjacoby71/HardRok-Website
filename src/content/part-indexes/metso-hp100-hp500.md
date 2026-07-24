@@ -10,4 +10,4 @@ metaDescription: 'Metso HP100; HP500 part number index: 1 numbers our team quote
 draft: false
 ---
 
-- N25450517
+- [N25450517](/parts/metso-n25450517/)

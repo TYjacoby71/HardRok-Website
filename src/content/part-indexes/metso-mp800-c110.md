@@ -10,4 +10,4 @@ metaDescription: 'Metso MP800; C110 part number index: 1 numbers our team quotes
 draft: false
 ---
 
-- 341217
+- [341217](/parts/metso-341217/)

@@ -10,5 +10,5 @@ metaDescription: 'Sandvik VSI part number index: 2 numbers our team quotes again
 draft: false
 ---
 
-- HT-488.0771-001
-- HT-488.1458-901
+- [HT-488.0771-001](/parts/sandvik-ht-488-0771-001/)
+- [HT-488.1458-901](/parts/sandvik-ht-488-1458-901/)

@@ -10,6 +10,6 @@ metaDescription: 'Metso Barmac; VSI part number index: 3 numbers our team quotes
 draft: false
 ---
 
-- HT-488.0771-001
-- HT-488.1458-901
-- ISO9001
+- [HT-488.0771-001](/parts/metso-ht-488-0771-001/)
+- [HT-488.1458-901](/parts/metso-ht-488-1458-901/)
+- [ISO9001](/parts/metso-iso9001/)

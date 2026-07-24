@@ -10,4 +10,4 @@ metaDescription: 'Metso VSI part number index: 1 numbers our team quotes against
 draft: false
 ---
 
-- HT-MM0407480
+- [HT-MM0407480](/parts/metso-ht-mm0407480/)

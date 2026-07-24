@@ -10,4 +10,4 @@ metaDescription: 'Metso C100; C105 part number index: 1 numbers our team quotes 
 draft: false
 ---
 
-- 931471.00
+- [931471.00](/parts/metso-931471-00/)

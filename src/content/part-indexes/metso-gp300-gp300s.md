@@ -10,14 +10,14 @@ metaDescription: 'Metso GP300; GP300S part number index: 11 numbers our team quo
 draft: false
 ---
 
-- 188320
-- 188322
-- 292819-A
-- 292826
-- 446421
-- 585664
-- 933913
-- 938379
-- MM0216093
-- MM0224945
-- MM0262147
+- [188320](/parts/metso-188320/)
+- [188322](/parts/metso-188322/)
+- [292819-A](/parts/metso-292819-a/)
+- [292826](/parts/metso-292826/)
+- [446421](/parts/metso-446421/)
+- [585664](/parts/metso-585664/)
+- [933913](/parts/metso-933913/)
+- [938379](/parts/metso-938379/)
+- [MM0216093](/parts/metso-mm0216093/)
+- [MM0224945](/parts/metso-mm0224945/)
+- [MM0262147](/parts/metso-mm0262147/)

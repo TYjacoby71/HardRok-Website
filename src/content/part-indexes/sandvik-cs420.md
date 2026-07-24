@@ -10,4 +10,4 @@ metaDescription: 'Sandvik CS420 part number index: 1 numbers our team quotes aga
 draft: false
 ---
 
-- CH420/
+- [CH420/](/parts/sandvik-ch420/)
